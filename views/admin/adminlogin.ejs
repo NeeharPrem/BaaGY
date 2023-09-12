@@ -1,0 +1,47 @@
+<%- include('../layout/adheader.ejs') -%>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="border p-4">
+                <h2 class="text-center">Admin Login</h2>
+                <p class="text-center">Please Login Here.</p>
+                <% if (status !== 'undefined') { %>
+                    <h5 class="text-center text-dark"><%= message %></h5>
+                <% } %>
+                <form method="post" action="/admin/adminlogin">
+                    <div class="form-group align-items-center">
+                        <input class="form-control" name="email" id="email1" placeholder="Email" onchange="validateEmail()">
+                        <div class="mt-2 mb-2"><span id="email-error" class="text-danger"></span></div>
+                    </div>
+                    <div class="form-group align-items-center">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger" value="Login" onclick="LoginForm">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var emailError = document.getElementById("email-error");
+
+    function validateEmail() {
+        var email1 = document.getElementById("email1").value;
+        if (email1.length === 0) {
+            emailError.innerHTML = "Email is required";
+            return false;
+        }
+        var emailParts = email1.split('.');
+        if (emailParts.length < 2 || emailParts[emailParts.length - 1].length < 2 || email1.indexOf('@') === -1 || email1.indexOf('.') === -1) {
+            emailError.innerHTML = "Email is invalid";
+            return false;
+        }
+        emailError.innerHTML = "";
+        return true;
+    }
+</script>
+<%- include('../layout/adfooter.ejs') -%>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      html, body {
+  text-align: center
+}
+.loupe-widget {
+  position: relative;
+  display: inline-block;
+  will-change: transform;
+  
+  &__loupe {
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    border: 2px solid #222;
+    box-shadow: 0 0 10px 1px rgba(0,0,0,.2);
+    background-color: white;
+    display: none;
+  }
+  
+  &:hover {
+    cursor:  url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7), auto;
+    
+    .loupe-widget__loupe {
+      display: block;
+      pointer-events: none;
+    }
+  }
+}
+    </style>
+</head>
+<body>
+<br /> <br />
+
+</body>
+
+</html>

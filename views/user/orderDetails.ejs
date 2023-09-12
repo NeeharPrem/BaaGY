@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Baagy | The Bag store</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                <!-- <div><a href="#">Sign in</a>
+                <a href="#">FAQs</a></div> -->
+            </div>
+            <!-- <div class="offcanvas__top__hover">
+            <span>Usd <i class="arrow_carrot-down"></i></span>
+            <ul>
+                <li>USD</li>
+                <li>EUR</li>
+                <li>USD</li>
+            </ul>
+        </div> -->
+        </div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+            <a href="#"><img src="img/icon/heart.png" alt=""></a>
+            <!-- <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a> -->
+
+            <a href="/"><img src="/img/icon/profile.svg"></a>
+            <form action="logout" method="post" class="d-inline">
+                <input type="submit" value="Logout">
+            </form>
+
+            <a href="/login">Login</a>
+
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <!-- <div class="offcanvas__text">
+        <p>Free shipping, 30-day return or refund guarantee.</p>
+    </div> -->
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo w-100">
+                        <!-- <a href="/"><img src="img/logo.svg" alt=""></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="">About Us</a></li>
+                                    <li><a href="">Shop Details</a></li>
+                                    <li><a href="">Shopping Cart</a></li>
+                                    <li><a href="">Check Out</a></li>
+                                    <li><a href="">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="./blog.html">Blog</a></li>
+                            <li><a href="./contact.html">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                        <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                        <a href="#"><img src="img/icon/cart.png"></a>
+
+                        <a href="/"><img src="/img/icon/profile.svg"></a>
+                        <form action="logout" method="post" class="d-inline">
+                            <input type="submit" value="Logout">
+                        </form>
+
+                        <a href="/login">Login</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <!-- <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h4>Shop</h4>
+                        <div class="breadcrumb__links">
+                            <a href="/">Home</a>
+                            <span>Shop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shop Section Begin -->
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="/profile">User Profile</a></li>
+                            <li class="breadcrumb-item" aria-current="page"><a href="/orders">Orders</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Order Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-12 mt-5">
+                <% orders.forEach(orderItem=> { %>
+                    <% const dd=orderItem.date.getDate(); const mm=orderItem.date.getMonth() + 1; const
+                        yyyy=orderItem.date.getFullYear(); const formattedDate=`${dd}-${mm}-${yyyy}`; %>
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>Ordered on: <%= formattedDate %>
+                                </div>
+                                <div>Order Id: <%= orderItem._id %>
+                                </div>
+                                <div class="row align-items-center">
+                                    <% if (orderItem.orderStatus==="Delivered" && orderItem.returnStatus !==true && rdate
+                                        <=7) { %>
+                                        <a class="btn btn-primary" href="#" role="button" data-toggle="modal"
+                                            data-target="#returnOrderModal">Return</a>
+                                        <% } else if (orderItem.orderStatus !=="Delivered" && orderItem.orderStatus
+                                            !=="Return" && orderItem.orderStatus !=="Cancelled" && orderItem.orderStatus !=="Cancelled by Admin" ) { %>
+                                            <a class="btn btn-danger" href="#" role="button" data-toggle="modal"
+                                                data-target="#cancelOrderModal">Cancel Order</a>
+                                            <% } else if (orderItem.orderStatus==="Delivered" &&
+                                                orderItem.returnStatus===true) { %>
+                                                <p>Return Under Processing</p>
+                                                <% } %>
+                                                    <% if (orderItem.orderStatus==="Delivered" && orderItem.returnStatus
+                                                        !==true) { %>
+                                                        <form action="/downloadInvoice?id=<%= orderItem._id %>"
+                                                            method="post">
+                                                            <button class="btn"
+                                                                style="background-color: #ffffff; border: solid #000000 1px; margin-left: 3px;"
+                                                                type="submit">Invoice</button>
+                                                        </form>
+                                                        <% } %>
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="ms-3">
+                                            <h4>Shipping Address</h4>
+                                            <h5>
+                                                <%= addrs.name %>
+                                            </h5>
+                                            <h5>
+                                                <%= addrs.mobile %>
+                                            </h5>
+                                            <h5>
+                                                <%= addrs.address %>, <%= addrs.locality %>
+                                            </h5>
+                                            <h5>
+                                                <%= addrs.state %>
+                                            </h5>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h4>Payment</h4>
+                                            <h5>
+                                                <%= orderItem.paymentMode %>
+                                            </h5>
+                                            <h5>
+                                                Total : ₹ <%= orderItem.total %>
+                                            </h5>
+                                        </div>
+                                        <div class="ms-3">
+                                            <h4>Order status</h4>
+                                            <% if (orderItem.orderStatus==="Confirmed" ) { %>
+                                                <h5 style="color: #ff9100;">
+                                                    <%= orderItem.orderStatus %>
+                                                </h5>
+                                                <% } else if (orderItem.orderStatus==="Cancelled" || orderItem.orderStatus==="Cancelled by Admin" ) { %>
+                                                    <h5 style="color: #ee0404;">
+                                                        <%= orderItem.orderStatus %>
+                                                    </h5>
+                                                    <% } else if (orderItem.orderStatus==="Delivered" ) { %>
+                                                        <h5 style="color: #01af27;">
+                                                            <%= orderItem.orderStatus %>
+                                                        </h5>
+                                                        <% } else if (orderItem.orderStatus==="Return" ) { %>
+                                                            <h5 style="color: #256eb3;">
+                                                                <%= orderItem.orderStatus %>
+                                                            </h5>
+                                                            <% } else if (orderItem.orderStatus==="Shipped" ) { %>
+                                                                <h5 style="color: #06f5ad;">
+                                                                    <%= orderItem.orderStatus %>
+                                                                </h5>
+                                                                <% } else if (orderItem.orderStatus==="Out for Delivery" ) {
+                                                                    %>
+                                                                    <h5 style="color: #0ceeaa;">
+                                                                        <%= orderItem.orderStatus %>
+                                                                    </h5>
+                                                                    <% } %>
+                                        </div>
+                                    </div>
+                                </li>
+                                <% orderItem.products.forEach(product=> { %>
+                                   
+                                    <li class="list-group-item">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <img src="img/<%= product.productId.img[0] %>"
+                                                    alt="<%= product.productId.name %>" width="100">
+                                            </div>
+                                            <div class="ms-3">
+                                                <h5>
+                                                    <%= product.productId.name %>  x <%= product.count %>
+                                                </h5>
+                                                <p>Price: ₹<%= product.productId.price %>
+                                                </p>
+                                            </div>
+                                            <div class="ms-3">
+                                                <%console.log()%>
+                                                <% if ( orderItem.orderStatus==="Delivered" && product.returnStatus !==true && rdate <=7 && orderItem.returnStatus
+                                                    !==true && orderItem.products.length>1 ) { %>
+                                                    <a class="btn btn-primary popupBTN1" href="#" role="button" data-rid="<%= product._id %>" data-toggle="modal"
+                                                        data-target="#returnProductModal">Return</a>
+                                                    <% } %>
+                                                        <% if (orderItem.orderStatus !=="Delivered" && product.orderStatus
+                                                            !=="Cancelled" && orderItem.orderStatus !=="Return" &&
+                                                            orderItem.orderStatus !=="Cancelled" && orderItem.orderStatus !=="Cancelled by Admin" && orderItem.products.length>1 ) { %>
+                                                            <a class="btn btn-danger popupBTN" data-pid="<%= product._id %>"
+                                                                role="button" data-toggle="modal"
+                                                                data-target="#cancelProductModal">Cancel</a>
+                                                            <% } else if(orderItem.orderStatus==="Cancelled" || orderItem.orderStatus ==="Cancelled by Admin" || product.orderStatus
+                                                            ==="Cancelled" ) { %>
+                                                                <h5 style="color: #ee0404;">
+                                                                    <%= product.orderStatus %>
+                                                                </h5>
+                                                                <% } else if(product.orderStatus==="Return" ) { %>
+                                                                    <h5 style="color: #0943e2;">
+                                                                        <%= product.orderStatus %>
+                                                                    </h5>
+                                                                <% } %>
+                                                                    <% if (product.returnStatus ===true && product.orderStatus!="Return") { %>
+                                                                        <p>Return Under Processing</p>
+                                                                        <% } %>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                        <!-- Modal for Cancel Order -->
+                        <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog"
+                            aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to cancel this order?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="/cancelorder?id=<%= orderItem._id %>" class="btn btn-danger">Confirm
+                                            Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal for Return Order -->
+                        <div class="modal fade" id="returnOrderModal" tabindex="-1" role="dialog"
+                            aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnOrderModalLabel">Return Order Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to return the product?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="/returnorder?id=<%= orderItem._id %>" class="btn btn-danger">Confirm
+                                            Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal for Cancel Product -->
+                        <div class="modal fade" id="cancelProductModal" tabindex="-1" role="dialog"
+                            aria-labelledby="cancelProductModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cancelProductModalLabel">Cancel Product</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form id="orderStatusForm" action="/cancelproduct" method="post">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="pid" id="categoryIdForOffer">
+                                            <input type="hidden" name="id" value="<%= orderItem._id %>">
+                                            <p>Are you sure you want to cancel this product?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" form="orderStatusForm"
+                                                class="btn btn-danger">Confirm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- product return modal -->
+                        <div class="modal fade" id="returnProductModal" tabindex="-1" role="dialog" aria-labelledby="cancelProductModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cancelProductModalLabel">Return Product</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form id="orderStatusForm1" action="/returnproduct" method="post">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="pid" id="productId">
+                                            <input type="hidden" name="id" value="<%= orderItem._id %>">
+                                            <p>Are you sure you want to return this product?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" form="orderStatusForm1" class="btn btn-danger">Confirm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- product return modal end -->
+                        <% }); %>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <!-- <a href="#"><img src="img/footer-logo.png" alt=""></a> -->
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which
+                            includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales &
+                                promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#cancelOrderModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", ".popupBTN", function () {
+            var pId = $(this).data('pid');
+            console.log(pId);
+
+            $(".modal-body #categoryIdForOffer").val(pId);
+            // $(".modal-body #newName").val(cVal);
+
+        });
+    </script>
+    <script>
+        $(document).on("click", ".popupBTN1", function () {
+            var pId = $(this).data('rid');
+            console.log(pId);
+
+            $(".modal-body #productId").val(pId);
+            // $(".modal-body #newName").val(cVal);
+
+        });
+    </script>
+</body>
+
+</html>

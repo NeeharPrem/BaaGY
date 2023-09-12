@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .message-box {
+            background-color: #ffffff;
+            padding: 45px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            border-bottom: solid 4px #f70a15;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-box i {
+            font-size: 55px;
+            color: #f70a15;
+        }
+
+        .message-box h2 {
+            margin-bottom: 12px;
+            font-size: 30px;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-top: 10px;
+        }
+
+        .message-box p {
+            margin-bottom: 0px;
+            font-size: 18px;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .flex-container {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            /* background-color: #bbdefb; */
+            /* height: 100%; */
+            /* padding: 15px; */
+            gap: 5px;
+
+        }
+
+        .flex-container>div {
+            /* background: #ffecb3;
+    border: 3px solid #ffcc80; */
+            border-radius: 5px;
+            padding: 8px;
+        }
+
+
+        .item1 {
+            /* flex:0 1 auto; */
+            align-self: flex-start;
+        }
+
+        .item2 {
+            /* flex:0 1 auto; */
+            align-self: flex-start;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="message-box _success _failed">
+        <i class="fa fa-times-circle" aria-hidden="true"></i>
+        <h2> Your payment failed </h2>
+        <p> Try again later </p>
+    </div>
+</body>
+
+</html>

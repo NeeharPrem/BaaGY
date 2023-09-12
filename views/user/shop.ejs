@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Male_Fashion Template">
+  <meta name="keywords" content="Male_Fashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BaaGY | The bag store</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <!-- Page Preloder -->
+  <!-- <div id="preloder">
+    <div class="loader"></div>
+  </div> -->
+
+  <!-- Offcanvas Menu Begin -->
+  <div class="offcanvas-menu-overlay"></div>
+  <div class="offcanvas-menu-wrapper">
+    <div class="row">
+      <% if (user) { %>
+        <div style="margin-right: 10px;"><a href="/wishlist"><img src="/img/icon/heart.png" alt=""></a></div>
+        <div style="margin-right: 10px;"><a href="/loadcart"><img src="/img/icon/cart.png"></a></div>
+        <div style="margin-right: 10px;"><a href="/profile"><img src="/img/icon/profile.svg"></a></div>
+        <form action="logout" method="post" class="d-inline" style="margin-right: 10px;">
+          <input type="submit" value="Logout">
+        </form>
+        <% } else { %>
+          <a href="/login">Login</a>
+          <% } %>
+    </div>
+    <div id="mobile-menu-wrap"></div>
+    <!-- <div class="offcanvas__text">
+      <p>Free shipping, 30-day return or refund guarantee.</p>
+    </div> -->
+  </div>
+  <!-- Offcanvas Menu End -->
+
+  <!-- Header Section Begin -->
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <!-- <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p>Free shipping, 30-day return or refund guarantee.</p>
+            </div>
+          </div> -->
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <!-- <div class="header__top__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+              </div> -->
+              <!-- <div class="header__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                  <li>USD</li>
+                  <li>EUR</li>
+                  <li>USD</li>
+                </ul>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3">
+          <div class="header__logo">
+            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li class="active"><a>Shop</a></li>
+              <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="./about.html">About Us</a></li>
+                  <li><a href="./shop-details.html">Shop Details</a></li>
+                  <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                  <li><a href="./checkout.html">Check Out</a></li>
+                  <li><a href="./blog-details.html">Blog Details</a></li>
+                </ul>
+              </li>
+              <li><a href="./blog.html">Blog</a></li>
+              <li><a href="./contact.html">Contacts</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <% if (user) { %>
+              <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+              <a href="/loadcart"><img src="img/icon/cart.png"></a>
+              <a href="/profile"><img src="/img/icon/profile.svg"></a>
+              <form action="logout" method="post" class="d-inline">
+                <input type="submit" value="Logout">
+              </form>
+              <% } else { %>
+                <a href="/login">Login</a>
+                <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+  <!-- Header Section End -->
+
+  <!-- Breadcrumb Section Begin -->
+  <section class="breadcrumb-option">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__text">
+            <h4>Shop</h4>
+            <div class="breadcrumb__links">
+              <a href="./index.html">Home</a>
+              <span>Shop</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Breadcrumb Section End -->
+
+  <!-- Shop Section Begin -->
+  <section class="shop spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="shop__sidebar">
+            <div>
+              <div class="shop__sidebar__search">
+                <form class="d-flex mr-auto" role="search" id="searchForm">
+                  <input class="form-control" type="search" placeholder="Search" value="<%=search%>" aria-label="Search" />
+                  <button type="submit">
+                    <span class="icon_search"></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="shop__sidebar__accordion">
+              <% if(cat || brand || prdData.length===0 || minPrice || search) {%>
+                <a href="/shop" class="clear-filter-link">clear filter X</a>
+                <% } %>
+                  <div class="accordion" id="accordionExample">
+                    <div class="card">
+                      <div class="card-heading">
+                        <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                      </div>
+                      <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <div class="shop__sidebar__categories">
+                            <ul class="nice-scroll">
+                              <% if (catData.length> 0) { %> <% for (let i=0; i < catData.length; i++) { %>
+                                  <li>
+                                    <a href="#" class="filter-button <%= cat === catData[i].id ? 'active-category' : '' %>"
+                                      data-category="<%= catData[i].id %>">
+                                      <%= catData[i].name %>
+                                    </a>
+                                  </li>
+                                  <% } %>
+                                    <% } %>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-heading">
+                        <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
+                      </div>
+                      <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <div class="shop__sidebar__brand">
+                            <ul>
+                              <% if (catData.length> 0) { %> <% for (let i=0; i < allbrand.length; i++) { %>
+                                  <li>
+                                    <a href="#" class="filter-button active" data-brand="<%= allbrand[i] %>">
+                                      <%= allbrand[i]%>
+                                    </a>
+                                  </li>
+                                  <% } %>
+                                    <% } %>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-heading">
+                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                      </div>
+                      <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <div class="shop__sidebar__price">
+                            <ul>
+                              <li><a href="#" class="filter-button" data-minprice="1" data-maxprice="5000">Price: ₹0 -
+                                  ₹5000</a></li>
+                              <li><a href="#" class="filter-button" data-minprice="5000" data-maxprice="15000">Price:
+                                  ₹5000 - ₹15000</a></li>
+                              <li><a href="#" class="filter-button" data-minprice="15000" data-maxprice="100000000">Price: above
+                                  ₹15000</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <div class="shop__product__option">
+            <div class="row">
+              <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="shop__product__option__left">
+                  <p>Showing 1–12 of 126 results</p>
+                </div>
+              </div> -->
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <!-- <div class="shop__product__option__right">
+                  <p>Sort by Price:</p>
+                  <select>
+                    <option value="">Low To High</option>
+                    <option value="">$0 - $55</option>
+                    <option value="">$55 - $100</option>
+                  </select>
+                </div> -->
+                <div class="col">
+                  <select class="form-control" id="sortingSelect">
+                    <option value="">Default Sorting</option>
+                    <option value="low">Sorting by low to high</option>
+                    <option value="high">Sorting by high to low</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- (prdData[i].quantity> 0 && prdData[i].status != true && prdData[i]) -->
+                <% if (prdData.length> 0) { %>
+                <% for (let i=0; i < prdData.length; i++) { %>
+                  <% if (prdData[i].status != true && prdData[i]) { %>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <!-- new div for borser -->
+              <div class="product__item">
+                <a href="/getproduct?id=<%=prdData[i]._id%>">
+                  <div class="product__item__pic set-bg" data-setbg="img/<%= prdData[i].img[0] %>" alt="">
+                    <!-- <a href="/getproduct?id=<%=prdData[i]._id%>"><img src="img/<%=prdData[i].img[0]%>" alt=""></a> -->
+                    <ul class="product__hover">
+                      <!-- fix this -->
+                      <!-- <li><a href="/towishlist?id=<%=prdData[i]._id%>"><img src="img/icon/heart.png" alt=""></a></li> -->
+                
+                      <!-- <li><a href="#"><img src="img/icon/search.png" alt=""></a></li> -->
+                    </ul>
+                  </div>
+                </a>
+                <div class="product__item__text">
+                  <h6>
+                    <%=prdData[i].name%>
+                  </h6>
+                  <!-- <a href="#" class="add-cart">+ Add To Cart</a> -->
+                  <h5>₹ <%=prdData[i].price%>
+                  </h5>
+                  <div class="product__color__select"></div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+              <% } %>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="product__pagination">
+                <section class="page-section">
+                  <div class="container">
+                    <div class="row justify-content-end align-items-center">
+                      <div class="col-lg-12 pt-3">
+                        <nav aria-label="...">
+                          <ul class="pagination pagination-sm justify-content-center">
+                                  <% const totalPages=Math.ceil(productCount / limit); %>
+                                    <% for (let i=1; i <=totalPages; i++) { %>
+                                      <% const isActive=i===page; %>
+                                        <li class="page-item <%= isActive ? 'active' : '' %>">
+                                          <a class="page-link pagination-link" style="background-color:rgb(188 175 175);" href="#" data-page="<%= i %>">
+                                            <%= i %>
+                                          </a>
+                                        </li>
+                                        <% } %>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- <a class="active" href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">21</a> -->
+              </div>
+            </div>
+          </div>
+        <% }else{%>
+          <div class="w-100 text-center">
+            <div>
+              <h2>NO PRODUCTS FOUND</h2>
+            </div>
+          </div>
+        <% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Shop Section End -->
+
+  <!-- Footer Section Begin -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="footer__about">
+            <div class="footer__logo">
+              <!-- <a href="#"><img src="img/footer-logo.png" alt=""></a> -->
+            </div>
+            <p>The customer is at the heart of our unique business model, which includes design.</p>
+            <a href="#"><img src="img/payment.png" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Clothing Store</a></li>
+              <li><a href="#">Trending Shoes</a></li>
+              <li><a href="#">Accessories</a></li>
+              <li><a href="#">Sale</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-6">
+          <div class="footer__widget">
+            <h6>Shopping</h6>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Delivary</a></li>
+              <li><a href="#">Return & Exchanges</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+          <div class="footer__widget">
+            <h6>NewLetter</h6>
+            <div class="footer__newslatter">
+              <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+              <form action="#">
+                <input type="text" placeholder="Your email">
+                <button type="submit"><span class="icon_mail_alt"></span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="footer__copyright__text">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <!-- <p>Copyright ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>2020
+              All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib</a>
+            </p> -->
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <!-- Search Begin -->
+  <div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+      <div class="search-close-switch">+</div>
+      <form class="search-model-form">
+        <input type="text" id="search-input" placeholder="Search here.....">
+      </form>
+    </div>
+  </div>
+  <!-- Search End -->
+
+  <!-- Js Plugins -->
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.nice-select.min.js"></script>
+  <script src="js/jquery.nicescroll.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <!-- <script src="js/jquery.countdown.min.js"></script> -->
+  <script src="js/jquery.slicknav.js"></script>
+  <script src="js/mixitup.min.js"></script>
+  <!-- <script src="js/owl.carousel.min.js"></script> -->
+  <script src="js/main.js"></script>
+
+  <!-- sorting script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortingSelect = document.getElementById('sortingSelect');
+        sortingSelect.addEventListener('change', function () {
+          const sortingValue = this.value;
+          updateUrlParams({ sort: sortingValue });
+        });
+
+      const searchForm = document.getElementById('searchForm');
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const searchTerm = this.querySelector('input').value.trim();
+        if (searchTerm !== '') {
+          updateUrlParams({ search: searchTerm, page: 1 });
+        } else {
+          console.log("error");
+        }
+      });
+
+      const filterButtons = document.querySelectorAll('.filter-button');
+      filterButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const category = this.dataset.category;
+          const brand = this.dataset.brand;
+          const minPrice = this.dataset.minprice;
+          const maxPrice = this.dataset.maxprice;
+          if (category) {
+            updateUrlParams({ category, page: 1 });
+          } else if (brand) {
+            updateUrlParams({ brand, page: 1 });
+          } else if (minPrice && maxPrice) {
+            updateUrlParams({ minPrice, maxPrice, page: 1 });
+          }
+        });
+      });
+
+      const paginationLinks = document.querySelectorAll('.pagination-link');
+      paginationLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const page = this.dataset.page;
+          updateUrlParams({ page });
+        });
+      });
+
+      function updateUrlParams(params) {
+        const currentUrl = new URL(window.location.href);
+        for (const [key, value] of Object.entries(params)) {
+          currentUrl.searchParams.set(key, value);
+        }
+        window.location.href = currentUrl.toString();
+      }
+    });
+  </script>
+
+  <!-- Add this script in your HTML template -->
+
+</body>
+
+</html>

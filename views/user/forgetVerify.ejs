@@ -1,0 +1,31 @@
+<%- include('../layout/header.ejs') -%>
+<div class="form3">
+    <h2 style="text-align:center">OTP Verification</h2>
+    <p style="text-align:center;">Enter the OTP that was sent to your Email</p>
+    <%if(status !=='undefined' ) {%>
+        <h5 class="text-center" style="color: red;">
+            <%= message %>
+        </h5>
+        <%}%>
+    <form action="/otpverify" method="post">
+        <div class="form-group">
+            <input type="text" name="inputotp" class="form-control" placeholder="Enter OTP">
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="email" value="<%= email %>" class="form-control">
+        </div>
+        <div class="d-flex justify-content-space-between">
+            <div class="form-group">
+                <input type="submit" class="btn btn-warning" value="Verify">
+            </div>
+            <div id="countdown-container">
+                <span id="countdown"></span>
+            </div>
+            <div class="reset" id="resend-container" style="display: none;">
+                <a href="/resentOtp?id=<%= email %>"><p>Resend Otp</p></a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/verfyoOtp.js"></script>
+<%- include('../layout/loginfooter.ejs') -%>

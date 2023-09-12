@@ -1,0 +1,269 @@
+body {
+     background: #e9e6da;
+     height: 20em;
+   }
+
+   .form {
+     background: white;
+     width: 500px;
+     overflow: hidden;
+     margin: 50px auto;
+     padding: 30px;
+     border-radius: 10px;
+     position: relative;
+   }
+
+   .form2 {
+     background: white;
+     width: 500px;
+     overflow: hidden;
+     margin: 50px auto;
+     padding: 30px;
+     border-radius: 10px;
+     position: relative;
+   }
+
+   .form3 {
+     background: white;
+     width: 500px;
+     overflow: hidden;
+     margin: 50px auto;
+     padding: 30px;
+     border-radius: 10px;
+     position: relative;
+   }
+
+   .signup {
+     background: white;
+     width: 500px;
+     overflow: hidden;
+     margin: 50px auto;
+     padding: 30px;
+     border-radius: 10px;
+     position: relative;
+   }
+
+   .title {
+     background: none;
+     color: white;
+     position: absolute;
+     width: 100%;
+     left: 0;
+     top: 0;
+     height: 40px;
+     line-height: 40px;
+     padding-left: 25px;
+     font-size: 20px;
+   }
+
+   .form-group a:hover {
+     color: black;
+     background-color: white;
+   }
+
+   .signuptext a:hover {
+     color: black;
+     background-color: white;
+   }
+
+
+   .d-flex {
+     display: flex;
+     justify-content: space-between;
+   }
+   
+
+   @media screen and (max-width: 1440px) {
+    .address{
+      width: 544px;
+    }
+     .form {
+       padding: 20px;
+     }
+     .form2 {
+       padding: 20px;
+     }
+     .form3 {
+       padding: 20px;
+     }
+     .signup {
+       padding: 20px;
+     }
+   }
+
+   @media screen and (max-width: 768px) {
+    .address{
+      width: 388px;
+    }
+     .form {
+       padding: 20px;
+     }
+     .form2 {
+       padding: 20px;
+     }
+     .form3 {
+       padding: 20px;
+     }
+     .signup {
+       padding: 20px;
+     }
+   }
+
+   @media screen and (max-width: 280px) {
+    .address{
+      width: 388px;
+    }
+    .form2 {
+      width: 370px;
+       padding: 20px;
+     }
+     .form3 {
+      width: 370px;
+       padding: 20px;
+     }
+     .form {
+      width: 370px;
+      height: 355px;
+       padding: 20px;
+     }
+   }
+
+   @media screen and (max-width: 425px) {
+    .address{
+      width: 388px;
+    }
+     .body{
+        height: 300px;
+     }
+     .signup{
+      width: 400px;
+       height: 550px;
+     }
+     .form2 {
+       width: 400px;
+       height: 190px;
+       padding: 15px;
+     }
+     .form3 {
+      width: 400px;
+      height: 251px;
+       padding: 20px;
+     }
+     .form {
+       width: 400px;
+       height: 355px;
+       padding: 15px;
+     }
+     .title {
+       font-size: 20px;
+     }
+   }
+
+
+   /* Add custom styles for the form button */
+.btn-primary {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+  }
+  
+  /* Add hover effect for the form button */
+  .btn-primary:hover {
+	background-color: #0056b3;
+  }
+  
+  /* Style the form inputs and labels */
+  .form-group {
+	margin-bottom: 20px;
+  }
+  
+  label {
+	font-weight: bold;
+	color: #333;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	transition: border-color 0.2s ease-in-out;
+	/* display: flex; */
+  }
+  
+  /* Add some spacing for the small text below the input */
+  .form-text {
+	margin-top: 5px;
+	color: #666;
+  }
+  
+  /* Style the form checkbox */
+  .form-check-input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+  }
+  
+  .form-check-label {
+	color: #666666;
+  }
+  
+  /* Style the form header */
+  h2.form-header {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 30px;
+  }
+
+  /* login form */
+  @media screen and (max-width: 600px) {
+    .form-group {
+        width: 100%;
+    }
+
+    .d-flex {
+        flex-direction: column;
+    }
+}
+/* span text */
+  .span-text {
+    color: #db1d1d;
+    font-size: 13px
+  }
+.addproduct-form{
+	margin-top: 4rem;
+}
+
+.d-inline input[type="submit"] {
+	background: none;
+	border: none;
+}
+
+.header__nav__option a {
+	color: #000000;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* Add this CSS to your stylesheet or in a <styl> tag within your HTML */
+.m-2 a {
+    color: rgb(16, 180, 202); /* Set the default color to black */
+    text-decoration: none; /* Remove underline by default */
+    transition: color 0.3s; /* Add smooth transition for color change */
+}
+
+.m-2 a:hover {
+    color: black; /* Change color to black on hover */
+    text-decoration: underline; /* Add underline on hover */
+}

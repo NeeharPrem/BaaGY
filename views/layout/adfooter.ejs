@@ -1,0 +1,102 @@
+<!-- JavaScript Libraries -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/js/admain.js"></script>
+<script>
+    // Get the input element by its ID
+    const inputElement = document.getElementById('category');
+    // Add an event listener to the input element to convert the value to uppercase
+    inputElement.addEventListener('input', function () {
+        this.value = this.value.toUpperCase();
+    });
+</script>
+
+<!-- pass value while pressing apply button in category -->
+<script>
+    $(document).on("click", ".popupBTN", function () {
+        var cId = $(this).data('id');
+        console.log(cId);
+
+        $(".modal-body #categoryIdForOffer").val(cId);
+        // $(".modal-body #newName").val(cVal);
+
+    });
+</script>
+<script>
+    $(document).on("click", ".popupBTN1", function () {
+        var cId = $(this).data('id');
+        console.log(cId);
+
+        $(".modal-body1 #categoryId1").val(cId);
+        // $(".modal-body #newName").val(cVal);
+
+    });
+</script>
+<!-- category js files  -->
+<script>
+    var nameError = document.getElementById("nameError");
+    var submitError = document.getElementById("submit-error");
+
+    function validatename() {
+        var name = document.getElementById("category").value.replace(/\s/g, "");
+
+        if (name.length === 0) {
+            nameError.innerHTML = "Name is required";
+            return false;
+        }
+
+        var numberRegex = /^\d+$/;
+        if (numberRegex.test(name)) {
+            nameError.innerHTML = "Name cannot be a number";
+            return false;
+        }
+
+        nameError.innerHTML = "";
+        return true;
+    }
+    function validateForm() {
+        if (!validatename()) {
+            submitError.style.display = "block";
+            submitError.innerHTML = "Please fill the form correctly";
+            setTimeout(function () {
+                submitError.style.display = "none";
+            }, 3000);
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+    function openEditModal(categoryId, categoryName) {
+        document.getElementById('editCategoryId').value = categoryId;
+        document.getElementById('editCategoryName').value = categoryName;
+        $('#editModal').modal('show');
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#cancelOrderModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+        });
+    });
+</script>
+<!-- cancell offer -->
+<script>
+    $(document).ready(function () {
+        $('#cancelOffer').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+        });
+    });
+</script>
+<!-- cancell offer end -->
+<script>
+    $(document).ready(function () {
+        $('#returnOrderModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+        });
+    });
+</script>
+</body>
+</html>

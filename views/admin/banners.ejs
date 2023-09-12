@@ -1,0 +1,80 @@
+<%- include('../layout/adheader.ejs') -%>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="me-2"></i>BAAGY</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <!-- <h6 class="mb-0">Jhon Doe</h6> -->
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    <a href="/admin/adminpanel" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/admin/userdash" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Users</a>
+                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+                    <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
+                    <a href="/admin/coupons" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Coupons</a>
+                    <a href="/admin/Orders" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Orders</a>
+                    <a class="nav-item nav-link active"><i class="far fa-file-alt me-2"></i>Banners</a>
+                    <a href="/admin/offers" class="nav-item nav-link"><i class="fa-solid fa-hand-holding-dollar"></i>Offers</a>
+                    <form action="adminlogout" method="post" class="d-flex justify-content-center mt-3">
+                        <input type="submit" value="Logout" class="btn btn-danger">
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+        <!-- Content Start -->
+        <div class="content">
+            <!-- contents starts -->
+            <div class="d-flex align-items-center bg-light pt-4">
+                <form action="/admin/newbanners" method="post" enctype="multipart/form-data">
+                    <%console.log(banner[1].image)%>
+                    <!-- Add a hidden input field to specify the banner number -->
+                    <input type="hidden" name="bannerNumber" value="1">
+                    <div class="form-group">
+                        <label for="bannerImage1">Banner Image 1</label>
+                        <br>
+                        <img src="/img/<%= banner[0].image %>" class="img-fluid" alt="no banner set">
+                        <input type="file" class="form-control-file mt-3" id="bannerImage1" name="img" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bannerURL2">Banner URL</label>
+                        <input type="text" class="form-control" id="bannerURL1" value="<%= banner[0].link %>" name="bannerURL" placeholder="NO BANNER"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Banner</button>
+                </form>
+            </div>
+            <div class="d-flex justify-content-center bg-light pt-4">
+                <form action="/admin/newbanners" method="post" enctype="multipart/form-data">
+                    <!-- Add a hidden input field to specify the banner number -->
+                    <input type="hidden" name="bannerNumber" value="2">
+                    <div class="form-group">
+                        <label for="bannerImage2">Banner Image 2</label>
+                        <br>
+                        <img src="/img/<%= banner[1].image %>" class="img-fluid" alt="no banner set">
+                        <input type="file" class="form-control-file mt-3" id="bannerImage2" name="img" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bannerURL2">Banner URL</label>
+                        <input type="text" class="form-control" id="bannerURL2" value="<%= banner[1].link %>" name="bannerURL"
+                            placeholder="NO BANNER" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Banner</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <%- include('../layout/adfooter.ejs') -%>

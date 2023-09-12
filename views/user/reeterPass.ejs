@@ -1,0 +1,67 @@
+<%- include('../layout/header.ejs') -%>
+    <div class="form">
+        <h2 style="text-align:center;">Reset your password</h2>
+        <p style="text-align:center;">
+            <span class="span-text" id="submit-error" style="color: #db1d1d"></span>
+        </p>
+        <form action="/newpass" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="form-group text-center">
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                    placeholder="Confirm Password">
+                <span class="span-text" id="passError" style="color: #db1d1d"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="email" value="<%= email %>" class="form-control" placeholder="">
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="form-group">
+                    <button type="submit" id="submitButton" class="btn btn-warning">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var passError = document.getElementById("passError");
+        var submitError = document.getElementById("submit-error");
+
+        function validatePass() {
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            var alphabetRegex = /[a-zA-Z]/;
+
+            if (password === confirm_password) {
+                if (!alphabetRegex.test(confirm_password)) {
+                    passError.innerHTML = "Password should contain at least one alphabet";
+                    return false;
+                }
+
+                if (confirm_password.length < 6) {
+                    passError.innerHTML = "Password should be at least 6 characters long";
+                    return false;
+                }
+
+                passError.innerHTML = "";
+                return true;
+            } else {
+                passError.innerHTML = "Passwords do not match";
+                return false;
+            }
+        }
+
+        function validateForm() {
+            if (!validatePass()) {
+                submitError.style.display = "block";
+                submitError.innerHTML = "Enter Password Correctly";
+                setTimeout(function () {
+                    submitError.style.display = "none";
+                }, 3000);
+                return false;
+            }
+        }
+    </script>
+
+    <%- include('../layout/footer.ejs') -%>

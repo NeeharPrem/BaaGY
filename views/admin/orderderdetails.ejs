@@ -1,0 +1,330 @@
+<%- include('../layout/adheader.ejs') -%>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="me-2"></i>BAAGY</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <!-- <h6 class="mb-0">Jhon Doe</h6> -->
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    <a class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/admin/userdash" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Users</a>
+                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+                    <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
+                    <a href="/admin/coupons" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Coupons</a>
+                    <a href="/admin/Orders" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Orders</a>
+                    <a href="/admin/banners" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>Banners</a>
+                    <a href="/admin/offers" class="nav-item nav-link"><i class="fa-solid fa-hand-holding-dollar"></i>Offers</a>
+                    <form action="adminlogout" method="post" class="d-flex justify-content-center mt-3">
+                        <input type="submit" value="Logout" class="btn btn-danger">
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <!-- <form class="d-none d-md-flex ms-4">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form> -->
+                <div class="d-none navbar-nav align-items-center ms-auto">
+                    <div class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex"></span>
+                        </a>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notificatin</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Password changed</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+            <!-- Shop Section Begin -->
+            <div class="container-fluid mt-4">
+                <div class="row">
+                    <div class="card row d-flex flex-row">
+                        <div class="card-body col-md-4">
+                            <h5 class="card-title">Shipping Address</h5>
+                            <p class="card-text mb-1">Name: <%= addrs.name %>
+                            </p>
+                            <p class="card-text mb-1">Mobile: <%= addrs.mobile %>
+                            </p>
+                            <p class="card-text mb-1">Address: <%= addrs.address %>
+                            </p>
+                            <p class="card-text mb-1">City: <%= addrs.locality%>
+                            </p>
+                            <p class="card-text mb-1">Pincode: <%= addrs.pincode %>
+                            </p>
+                        </div>
+                        <div class="card-body col-md-4">
+                            <h5 class="card-title">Shipping details</h5>
+                            <p class="card-text mb-1">OrderID: <%= orders[0]._id%>
+                            </p>
+                            <p class="card-text mb-1">Total price: ₹<%= orders[0].total %>
+                            </p>
+                            <p class="card-text mb-1">Payment mode: <%= orders[0].paymentMode%>
+                            </p>
+                        </div>
+                        <div class="card-body col-md-4">
+                            <%if(orders[0].orderStatus=="Cancelled" || orders[0].orderStatus=="Cancelled by Admin"){%>
+                                <h5 class="card-title">Orders status : </h5>
+                                <h5 style="color: red;">
+                                    <%= orders[0].orderStatus %>
+                                </h5>
+                                <%}else if(orders[0].orderStatus=="Delivered" ){%>
+                                    <h5 class="card-title">Orders status : </h5>
+                                    <h5 style="color: rgb(15, 179, 51);">
+                                        <%= orders[0].orderStatus %>
+                                    </h5>
+                                    <%}else{%>
+                                        <h5 class="card-title">Orders status : </h5>
+                                        <h5 style="color: rgb(229, 255, 0);">
+                                            <%= orders[0].orderStatus %>
+                                        </h5>
+                                        <% if (orders[0].orderStatus != "Delivered" && orders[0].returnStatus !=true ) { %>
+                                            <a class="btn btn-danger" href="#" role="button" data-toggle="modal"
+                                                data-target="#cancelOrderModal">Change status</a>
+                                            <%}else if(orders[0].orderStatus === "Delivered" && orders[0].returnStatus ===true){%>
+                                                <a class="btn btn-primary" href="#" role="button" data-toggle="modal"
+                                                data-target="#cancelOrderModal">Approve Return</a>
+                                                <%}else if(orders[0].orderStatus === "Delivered" && orders[0].returnStatus ===true){%>
+                                                    <p>Return Approved</p>
+                                                <%}%>
+                                                <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid mt-4">
+                <div class="row">
+                    <div class="card row d-flex flex-row" style="border: none;">
+                        <h5 class="card-title" style="margin-top: 2px;">Ordered Products</h5>
+                        <% orders.forEach(orderItem=> { %>
+                            <% orderItem.products.forEach(product=> { %>
+                                <div class="card-body col-md-4 border m-1">
+                                    <div>
+                                        <img src="/img/<%= product.productId.img[0] %>" alt="<%= product.productId.name %>"
+                                            width="100">
+                                    </div>
+                                    <p class="card-text mb-1">Name: <%= product.productId.name %>
+                                    </p>
+                                    <p class="card-text mb-1">Price: ₹ <%= product.productId.price %> /-</p>
+                                    <p class="card-text mb-1">Purchase quantity: <%= product.count %>
+                                    </p>
+                                    <% if (product.returnStatus===true && product.returnStatus==="Delivered") { %>
+                                        <a class="btn btn-primary popupBTN1" href="#" role="button" data-rid="<%= product._id %>" data-toggle="modal"
+                                            data-target="#returnProductModal">Approve Return</a>
+                                        <% } else if (product.orderStatus ==="Return" && product.returnStatus===true ) { %>
+                                                            <h5 style="color: #256eb3;">
+                                                                <%= product.orderStatus%>
+                                                            </h5>
+                                                            <% }else{%>
+                                                                <h5 style="color: rgb(15, 179, 51);">
+                                                                    <%= product.orderStatus%>
+                                                                </h5>
+                                                            <% }%>
+                                </div>
+                                <% }); %>
+                                    <% }); %>
+                    </div>
+                </div>
+            </div>
+            <!-- ... (other sections) ... -->
+            <!-- product return modal -->
+            <div class="modal fade" id="returnProductModal" tabindex="-1" role="dialog" aria-labelledby="cancelProductModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cancelProductModalLabel">Return Product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="orderStatusForm1" action="approvereturn" method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="pid" id="productId">
+                                <input type="hidden" name="id" value="<%= orders[0]._id %>">
+                                <!-- <p>Are you sure you want to return this product?</p> -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" form="orderStatusForm1" class="btn btn-danger">Confirm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- modal for return product end -->
+            <!-- Modal for Cancel Order -->
+            <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog"
+                aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <% if (orders[0].orderStatus != "Delivered" && orders[0].returnStatus !=true ) { %>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cancelOrderModalLabel">Update Order Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="orderStatusForm" action="update-order-status" method="post">
+                                <input type="hidden" name="id" value="<%= orders[0]._id %>">
+                                <div class="form-group">
+                                    <label for="orderStatus">Order Status:</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="orderStatus" id="shipped"
+                                            value="Shipped">
+                                        <label class="form-check-label" for="shipped">Shipped</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="orderStatus"
+                                            id="outForDelivery" value="Out for Delivery">
+                                        <label class="form-check-label" for="outForDelivery">Out for Delivery</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="orderStatus" id="delivered"
+                                            value="Delivered">
+                                        <label class="form-check-label" for="delivered">Delivered</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="orderStatus" id="cancel"
+                                            value="Cancelled by Admin">
+                                        <label class="form-check-label" for="cancel">Cancel</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" form="orderStatusForm" class="btn btn-danger">Update Status</button>
+                        </div>
+                    </div>
+                    <% }else if(orders[0].orderStatus === "Delivered" && orders[0].returnStatus ===true){%>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cancelOrderModalLabel">Approve Return</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="orderStatusForm" action="update-order-status" method="post">
+                                    <input type="hidden" name="id" value="<%= orders[0]._id %>">
+                                    <div class="form-group">
+                                        
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" name="orderStatus" id="Return"
+                                                value="Return">
+                                            <label class="form-check-label" for="Return">Yes</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" form="orderStatusForm" class="btn btn-danger">Update Status</button>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+             <!-- Modal for Return Order -->
+            
+        </div>
+        <!-- <script src="/js/jquery-3.3.1.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.nice-select.min.js"></script>
+        <script src="/js/jquery.nicescroll.min.js"></script>
+        <script src="/js/jquery.magnific-popup.min.js"></script>
+        <script src="/js/jquery.countdown.min.js"></script>
+        <script src="/js/jquery.slicknav.js"></script>
+        <script src="/js/mixitup.min.js"></script>
+        <script src="/js/owl.carousel.min.js"></script>
+        <script src="/js/main.js"></script> -->
+        <script src="/js/admain.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#cancelOrderModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#returnOrderModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                });
+            });
+        </script>
+        <script>
+            $(document).on("click", ".popupBTN1", function () {
+                var pId = $(this).data('rid');
+                console.log(pId);
+
+                $(".modal-body #productId").val(pId);
+                // $(".modal-body #newName").val(cVal);
+
+            });
+        </script>
+    </div>
+    </body>
+
+    </html>

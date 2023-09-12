@@ -1,0 +1,19 @@
+<%- include('../layout/header.ejs') -%>
+<div class="form2">
+    <h2 style="text-align:center"></h2>
+    <p style="text-align:center;">Enter your email</p>
+    <div><span class="span-text" id="submit-error" style="color: #db1d1d"></span></div>
+    <form method="post" action="sentOtp"> 
+        <div class="form-group">
+            <input class="form-control" name="email" id="email1" placeholder="Email" onchange="validateEmail()">
+            <span class="span-text" id="emailError" style="color: #db1d1d"></span>
+        </div>  
+        <div class="d-flex justify-content-space-between">
+            <div class="form-group">
+                <button type="submit" id="submitButton" class="btn btn-warning" onclick="return validateForm()">submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/loginverify.js"></script>
+<%- include('../layout/footer.ejs') -%>

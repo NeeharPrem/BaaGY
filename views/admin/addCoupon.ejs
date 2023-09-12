@@ -1,0 +1,133 @@
+<%- include('../layout/adheader.ejs') -%>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="me-2"></i>BAAGY</h3>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <!-- <h6 class="mb-0">Jhon Doe</h6> -->
+                        <span>Admin</span>
+                    </div>
+                </div>
+                <div class="navbar-nav w-100">
+                    <a href="/admin/adminpanel" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/admin/userdash" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Users</a>
+                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
+                    <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
+                    <a href="/admin/coupons" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Coupons</a>
+                    <a href="/admin/Orders" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Orders</a>
+                    <a href="/admin/banners" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>Banners</a>
+                    <a href="/admin/offers" class="nav-item nav-link"><i class="fa-solid fa-hand-holding-dollar"></i>Offers</a>
+                    <form action="adminlogout" method="post" class="d-flex justify-content-center mt-3">
+                        <input type="submit" value="Logout" class="btn btn-danger">
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+        <!-- Content Start -->
+        <div class="content" style="margin-top: 2rem;">
+            <!-- contents starts -->
+            <h1>Add Coupons</h1>
+            <form action="/admin/addCoupon" method="post" class="form" onsubmit="return validateForm()">
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Coupon name</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="coupon name" name="name" required>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Discount</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
+                            onkeyup="validateQuantity()" required />
+                        <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Expiry Date</label>
+                    </div>
+                    <div class="col">
+                        <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiry"
+                            required />
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Minimum Amount</label>
+                    </div>
+                    <div class="col">
+                        <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required />
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Maximum discount</label>
+                    </div>
+                    <div class="col">
+                        <input type="number" placeholder="Enter the minimum purchase required" name="maxlimit" required />
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center align-items-center m-auto">
+                    <div class="col">
+                        <label>Description</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="Description" name="description">
+                    </div>
+                </div>
+                <div class="justify-content-center align-items-center m-auto">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <script>
+        function getCurrentDate() {
+          const now = new Date();
+          const year = now.getFullYear();
+          let month = now.getMonth() + 1;
+          let day = now.getDate();
+      
+          if (month < 10) {
+            month = '0' + month;
+          }
+          if (day < 10) {
+            day = '0' + day;
+          }
+      
+          return `${year}-${month}-${day}`;
+        }
+      
+        function validateQuantity() {
+          const quantity = document.getElementById("quantity").value;
+          const quantityError = document.getElementById("quantityError");
+      
+          if (!quantity.match(/^\d+(\.\d{1,2})?$/)) {
+            quantityError.textContent = "Enter a valid discount percentage";
+            return false;
+          } else {
+            quantityError.textContent = "";
+            return true;
+          }
+        }
+      
+        function validateForm() {
+          const isValidQuantity = validateQuantity();
+          return isValidQuantity;
+        }
+      </script>
+    <%- include('../layout/adfooter.ejs') -%>
