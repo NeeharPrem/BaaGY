@@ -101,7 +101,7 @@
             <div class="container mt-4">
                 <h2>Product List</h2>
                 <div>
-                    <a href="/admin/addproduct" class="btn btn-warning">Add Product</a>
+                    <a href="/admin/addproduct" class="btn btn-warning m-3">Add Product</a>
                   </div>
                 <div class="table-wrapper">
                     <div class="table-responsive">
@@ -224,4 +224,16 @@
         </div>
     </div>
     <!-- remove offer modal end -->
+    <script>
+        $(document).ready(function () {
+            $('#userlist').DataTable({
+                "search": true,
+                "order": [[0, "asc"]],
+                "pageLength": 10,
+                "language": {
+                    "search": "Search: "
+                }
+            });
+        });
+    </script>
     <%- include('../layout/adfooter.ejs') -%>

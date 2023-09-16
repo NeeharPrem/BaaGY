@@ -46,8 +46,14 @@ const orderData = new mongoose.Schema({
         type:Number,
         required:true,
     },
+    coupon: {
+        type: String,
+    },
+    discount: {
+        type: Number,
+    },
     walletAmt: {
-        type:Number
+        type:Number,
     }
 });
 module.exports=mongoose.model('orders',orderData)

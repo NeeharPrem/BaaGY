@@ -98,5 +98,17 @@
         });
     });
 </script>
+<script>
+    document.getElementById('files').addEventListener('change', function () {
+            const fileInput = document.getElementById('files');
+            const fileLabel = document.getElementById('fileLabel');
+
+            if (fileInput.files.length > 0) {
+                fileLabel.textContent = fileInput.files[0].name;
+            } else {
+                fileLabel.textContent = 'Choose File';
+            }
+        });
+</script>
 </body>
 </html>

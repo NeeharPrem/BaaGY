@@ -36,7 +36,7 @@
     window.onload = function () {
             var oneMinute = 30, // 30 seconds
                 display = document.querySelector('#countdown');
-                document.querySelector(".btn-warning").disabled = true;
+                document.querySelector(".btn-warning").disabled = false;
 
             // Check if the URL contains status=success
             var urlParams = new URLSearchParams(window.location.search);
@@ -68,3 +68,21 @@
 
     // Add an event listener to the OTP input field to validate on input
     document.querySelector('input[name="inputotp"]').addEventListener('input', validateOTP);
+
+function validateOTP1() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var otpInput = document.querySelector('input[name="userotp"]');
+    var verifyButton = document.querySelector('.btn-warning');
+
+    if (otpInput.value.match(/^\d{6}$/)) {
+        // The input is a 6-digit number, enable the submit button
+        verifyButton.disabled = false;
+    } else if (urlParams.get('status') === 'success') {
+        verifyButton.disabled = true;
+    } else {
+        verifyButton.disabled = true;
+    }
+}
+
+// Add an event listener to the OTP input field to validate on input
+document.querySelector('input[name="userotp"]').addEventListener('input', validateOTP1);

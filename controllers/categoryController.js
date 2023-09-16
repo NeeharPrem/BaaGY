@@ -1,3 +1,4 @@
+const { findOneAndDelete, findOneAndUpdate, findOne } = require('../model/adminmodel');
 const category = require('../model/categorymodel');
 const Cat = category
 const offers = require('../model/offermodel');
@@ -22,13 +23,18 @@ exports.loadCategory = async (req, res) => {
 exports.addCat = async (req, res) => {
     try {
         const name = req.body.name
+        const img = []
+        for (let file of req.files) {
+            img.push(file.filename)
+        }
         const existingCat = await Cat.findOne({ name: name })
         if (existingCat) {
             const message = 'Category is existing';
             return res.redirect('/admin/category?status=success&message=' + encodeURIComponent(message));
         } else {
             const newCat = new Cat({
-                name
+                name,
+                img: img,
             });
             // Save the new category to the DB
             await newCat.save();
@@ -40,13 +46,47 @@ exports.addCat = async (req, res) => {
     }
 }
 
+// add category image
+exports.addImage = async (req, res) => {
+    try {
+        const id = req.body.id
+        const img = []
+        for (let file of req.files) {
+            img.push(file.filename)
+        }
+            await Cat.findOneAndUpdate({ _id: id }, { $push: { img: { $each: img } } })
+            return res.redirect('/admin/category');   
+    } catch (error) {
+
+    }
+}
+
 // edit Category
 exports.editCat = async (req, res) => {
     try {
         const name = req.body.name
         const id = req.body.categoryId
-        await Cat.findOneAndUpdate({ _id: id }, { $set: { name: name } })
+        console.log(req.files,req.body)
+        const img=[]
+        for(let file of req.files){
+            img.push(file.filename)
+        }
+        await Cat.findOneAndUpdate({ _id: id }, { $push: { img: { $each: img } },$set: { name: name } })
         return res.redirect('/admin/category');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// delete category image
+exports.deletecatimg = async (req, res) => {
+    try {
+        console.log(req.query.id)
+        // const name = req.body.name
+        // const imgUrl = req.query.imageURL
+
+        // await Cat.findByIdAndUpdate({ _id: id }, { $pull: { img: imgUrl } });
+        // return res.redirect('/admin/category');
     } catch (error) {
         console.log(error);
     }

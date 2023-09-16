@@ -5,6 +5,10 @@ const adminData = new mongoose.Schema({
         type:String,
         required:true
     },
+    isadmin: {
+        type: Boolean,
+        default: true,
+    },
     password:{
         type:String,
         required:true

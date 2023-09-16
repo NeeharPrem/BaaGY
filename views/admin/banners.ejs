@@ -37,39 +37,55 @@
         <!-- Content Start -->
         <div class="content">
             <!-- contents starts -->
-            <div class="d-flex align-items-center bg-light pt-4">
+            <div class="d-flex bg-light pt-4">
                 <form action="/admin/newbanners" method="post" enctype="multipart/form-data">
-                    <%console.log(banner[1].image)%>
                     <!-- Add a hidden input field to specify the banner number -->
                     <input type="hidden" name="bannerNumber" value="1">
                     <div class="form-group">
                         <label for="bannerImage1">Banner Image 1</label>
                         <br>
+                        <%if(locals.banner && banner.length>0){%>
                         <img src="/img/<%= banner[0].image %>" class="img-fluid" alt="no banner set">
+                        <%}else{%>
+                            No image added
+                            <%}%>
                         <input type="file" class="form-control-file mt-3" id="bannerImage1" name="img" accept="image/*" required>
                     </div>
                     <div class="form-group">
                         <label for="bannerURL2">Banner URL</label>
-                        <input type="text" class="form-control" id="bannerURL1" value="<%= banner[0].link %>" name="bannerURL" placeholder="NO BANNER"
+                        <%if(locals.banner && banner.length>0){%>
+                        <input type="text" class="form-control" id="bannerURL1" value="<%= banner[0].link %>" name="bannerURL" placeholder="NO URL"
                             required>
+                            <%}else{%>
+                            <input type="text" class="form-control" id="bannerURL1"  name="bannerURL"
+                                placeholder="NO BANNER" required>
+                                <%}%>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Banner</button>
                 </form>
             </div>
-            <div class="d-flex justify-content-center bg-light pt-4">
+            <div class="d-flex bg-light pt-4">
                 <form action="/admin/newbanners" method="post" enctype="multipart/form-data">
                     <!-- Add a hidden input field to specify the banner number -->
                     <input type="hidden" name="bannerNumber" value="2">
                     <div class="form-group">
                         <label for="bannerImage2">Banner Image 2</label>
                         <br>
-                        <img src="/img/<%= banner[1].image %>" class="img-fluid" alt="no banner set">
+                        <%if(locals.banner && banner.length>0){%>
+                            <img src="/img/<%= banner[1].image %>" class="img-fluid" alt="no banner set">
+                            <%}else{%>
+                                No image added
+                                <%}%>
                         <input type="file" class="form-control-file mt-3" id="bannerImage2" name="img" accept="image/*" required>
                     </div>
                     <div class="form-group">
                         <label for="bannerURL2">Banner URL</label>
+                        <%if(locals.banner && banner.length>0){%>
                         <input type="text" class="form-control" id="bannerURL2" value="<%= banner[1].link %>" name="bannerURL"
-                            placeholder="NO BANNER" required>
+                            placeholder="NO URL" required>
+                            <%}else{%>
+                                <input type="text" class="form-control" id="bannerURL2"  name="bannerURL" placeholder="NO BANNER" required>
+                                <%}%>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Banner</button>
                 </form>

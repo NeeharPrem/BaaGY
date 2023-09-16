@@ -25,7 +25,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, w:
     .catch((err) => {
         console.error('Error during connecting to MongoDB', err);
     });
-
+   
 // Load static contents
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,6 +40,7 @@ const errorHandler = (err, req, res, next) => {
     console.error(err);
     res.status(500).render('error', { message: 'Internal Server Error' });
   };
+  
 app.use(errorHandler);
 
 app.use((req, res) => {

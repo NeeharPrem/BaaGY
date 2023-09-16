@@ -285,6 +285,7 @@ ol {
 
 .header {
 	background: #ffffff;
+	border-bottom: solid 1px #bdb7b7;
 }
 
 .header__top {
@@ -372,7 +373,7 @@ ol {
 }
 
 .header__logo {
-	padding: 30px 0;
+	padding: 23px 0; // changes
 }
 
 .header__logo a {
@@ -418,7 +419,7 @@ ol {
 	left: 0;
 	top: 56px;
 	width: 150px;
-	background: #111111;
+	background: #f7f6f6;
 	text-align: left;
 	padding: 5px 0;
 	z-index: 9;
@@ -436,7 +437,7 @@ ol {
 
 .header__menu ul li .dropdown li a {
 	font-size: 14px;
-	color: #ffffff;
+	color: #000000;
 	font-weight: 400;
 	padding: 5px 20px;
 	text-transform: capitalize;
@@ -4181,3 +4182,44 @@ ol {
 }
 
 /* zoom */
+/* CSS for the profile dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 2; /* Ensure the profile icon is above other content */
+}
+
+.profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff; /* Background color */
+    border: 1px solid #ddd; /* Border */
+    border-radius: 5px; /* Rounded corners */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2; /* Ensure the dropdown is above other content */
+    transition: opacity 0.3s, transform 0.3s; /* Add a smooth transition effect */
+    opacity: 0; /* Initially, make it transparent */
+    transform: translate(-24px, 9px); /* Move it slightly up and left */
+}
+
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1; /* Make it fully visible */
+    transform: translate(0, 0); /* Bring it back to its original position */
+}
+
+.profile-dropdown .dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: #333; /* Text color */
+    transition: background-color 0.3s; /* Add a smooth transition effect for links */
+}
+
+.profile-dropdown .dropdown-content a:hover {
+    background-color: #f1f1f1; /* Hover background color */
+}
+
+/* contact form */
+

@@ -9,6 +9,7 @@ const couponController=require('../controllers/couponController')
 const jwt=require('../middleware/jwt')
 const crypto = require('crypto');
 const router = express();
+const nocache = require('nocache')
 
 // crypto to create random key for sessions
 const secret=crypto.randomBytes(64).toString('hex');
@@ -22,6 +23,7 @@ router.use(session({
 // set view folder
 router.set('view engine','ejs');
 router.set('views','./views/user');
+
 
 // Load Homepage
 router.get('/',userController.loadHome);
@@ -37,7 +39,9 @@ router.get('/signup',auth.isLogout,userController.loadSignup);
 // user signup action
 router.post('/signup',userController.insertUser);
 // otp verification
-router.post('/verifyOtp',userController.verifyOtp);
+router.all('/verifyOtp',userController.verifyOtp);
+// sent otp for signup
+router.get('/resentotp', userController.resentOtp1)
 
 // forget pass
 // forget password email page
@@ -53,21 +57,21 @@ router.post('/newpass',userController.newpass)
 
 // profile
 // show user profile
-router.get('/profile', jwt.signinverify, auth.isLogin,userController.profile)
+router.get('/profile', auth.isLogin,jwt.signinverify,userController.profile)
 // user wallet info
 router.get('/wallet', auth.isLogin,userController.getWallet)
 // Edit user profile
-router.get('/editprofile', jwt.signinverify,auth.isLogin,userController.editprofile)
+router.get('/editprofile', auth.isLogin,jwt.signinverify,userController.editprofile)
 // update uer db with new data
 router.post('/userupdate', jwt.signinverify,auth.isLogin,userController.userupdate)
 // Load changepassword page
-router.get('/editpass', jwt.signinverify, auth.isLogin,userController.editpass)
+router.get('/editpass', auth.isLogin,jwt.signinverify,userController.editpass)
 // Update the password
 router.post('/passupdate',auth.isLogin,userController.passupdate)
 // Load user address and edit page
-router.get('/address',jwt.signinverify,auth.isLogin,addressController.loadAddress)
+router.get('/address', auth.isLogin,jwt.signinverify,addressController.loadAddress)
 // Load address form
-router.get('/getform', jwt.signinverify,auth.isLogin,addressController.loadForm)
+router.get('/getform', auth.isLogin,jwt.signinverify,addressController.loadForm)
 // Add user address to db
 router.post('/addaddress',addressController.adddata)
 // Load edit current address page
@@ -85,48 +89,48 @@ router.get('/getproduct',userController.showProduct)
 
 // cart
 // Add product to cart
-router.post('/addtocart',cartController.addtoCart)
+router.post('/addtocart', auth.isLogin,cartController.addtoCart)
 // load shoping cart page
-router.get('/loadcart',jwt.signinverify,cartController.loadCart)
+router.get('/loadcart',auth.isLogin,jwt.signinverify,cartController.loadCart)
 // updating the cart items
-router.put('/newcart',cartController.updateCart)
+router.put('/newcart', auth.isLogin,cartController.updateCart)
 // remove product from the cart
 router.post('/delete',cartController.deleteItem)
 
 // checkout page
 // checkout page
-router.get('/checkout',jwt.signinverify,orderController.loadCheckout)
+router.get('/checkout', auth.isLogin,jwt.signinverify,orderController.loadCheckout)
 
 // add address from checkout page
-router.get('/getforms',addressController.loadForms)
+router.get('/getforms',auth.isLogin,addressController.loadForms)
 // insert user address to db
 router.post('/newaddress',addressController.adddatas)
 // edit address from checkout page
-router.get('/editadrs',addressController.editAddress1)
+router.get('/editadrs', auth.isLogin,addressController.editAddress1)
 // update edited address in checkout page
 router.post('/checkoutupdateadrs',addressController.updateAddress1)
 // remove address from checkout page
-router.get('/removeadrr',addressController.removeAdrr)
+router.get('/removeadrr', auth.isLogin,addressController.removeAdrr)
 
 // order
 // place the order
-router.post('/placeorder',orderController.placeOrder)
+router.post('/placeorder', nocache(),orderController.placeOrder)
 // apply coupons
 router.post('/applycpn',couponController.applyCoupon)
 // Remove coupons
-router.get('/removecpn',couponController.removeCoupon)
+router.get('/removecpn', auth.isLogin,couponController.removeCoupon)
 // place order using Razorpay
 router.post('/verifyPayment',orderController.verifyPayment)
 // user order management
-router.get('/orders', auth.isLogin,orderController.loadOrders)
+router.get('/orders',auth.isLogin,orderController.loadOrders)
 // load payment success page
-router.get("/success", auth.isLogin,userController.success);
+router.get("/success",nocache(),auth.isLogin,userController.success);
 // load payment failed page
-router.get("/failed", auth.isLogin,userController.failed);
+router.get("/failed",nocache(),auth.isLogin,userController.failed);
 // user order details page
 router.get('/viewDetails', auth.isLogin,orderController.orderDetails)
 // cancell the order
-router.get('/cancelorder', auth.isLogin,orderController.cancelOrder)
+router.get('/cancelorder',auth.isLogin,orderController.cancelOrder)
 // cacel individual item from the order
 router.post('/cancelproduct', orderController.cancelProduct)
 // Return order
@@ -144,8 +148,13 @@ router.all('/outWishlist', auth.isLogin,userController.outWishlist)
 // load wishlist page
 router.get('/wishlist', auth.isLogin,userController.loadWishlist)
 
-// zoom test
-router.get('/zoom', userController.zoom)
+// About
+router.get('/about',userController.about)
+
+// contact form
+router.get('/contact',userController.contactus)
+// submit contact form
+router.post('/contactus',userController.contactsubmit)
 
 // user logout
 router.post('/logout',userController.logout)

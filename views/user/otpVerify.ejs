@@ -1,25 +1,37 @@
+
 <%- include('../layout/header.ejs') -%>
-<div class="form">
-    <h2 style="text-align:center">Verification</h2>
-    <p style="text-align:center;">Enter the otp that sent to your Mail</p>
-    <form action="/verifyOtp" method="post">
-        <%if(status !=='undefined') {%>
-        <h5 class="text-center text-dark"><%= message %></h5>
-    <%}%>
-        <div class="form-group">
-            <input type="text" name="userotp" class="form-control" placeholder="">
-        </div>
-        <div class="form-group">
-            <input type="hidden" name="email" value="<%= email %>" class="form-control">
-        </div>
-        <div class="form-group">
-            <input type="hidden" name="refferal" value="<%= refferal %>" class="form-control">
-        </div>
-        <div class="d-flex justify-content-space-between">
-            <div class="form-group">
-                <button type="submit" id="submitButton" class="btn btn-warning">Login</button>
-            </div>
-        </div>
-    </form>
-</div>
-<%- include('../layout/footer.ejs') -%>
+    <div class="form3">
+        <h2 style="text-align:center">OTP Verification</h2>
+        <p style="text-align:center;">Enter the OTP that was sent to your Email</p>
+        <%if(status !=='undefined' ) {%>
+            <h5 class="text-center" style="color: red;">
+                <%= message %>
+            </h5>
+            <%}%>
+                <form action="/verifyOtp" method="post">
+                    <div class="form-group">
+                        <input type="text" name="userotp" class="form-control" placeholder="Enter OTP">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="email" value="<%= email %>" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="refferal" value="<%= refferal %>" class="form-control">
+                    </div>
+                    <div class="d-flex justify-content-space-between">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-warning" value="Verify">
+                        </div>
+                        <div id="countdown-container">
+                            <span id="countdown"></span>
+                        </div>
+                        <div class="reset" id="resend-container" style="display: none;">
+                            <a href="/resentotp?id=<%= email %>">
+                                <p>Resend Otp</p>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+    </div>
+    <script src="/js/verfyoOtp.js"></script>
+    <%- include('../layout/footer.ejs') -%>

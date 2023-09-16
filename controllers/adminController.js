@@ -28,34 +28,25 @@ exports.adminLogin = async (req,res)=>{
         
         const {email,password} = req.body
         const admin = await Admin.findOne({email});
+        const verify=admin.isadmin
         if(!admin){
-            const message = 'invalid admin email and password';
+            const message = 'invalid admin email or password';
             res.redirect('/adminlogin?status=success&message='+ encodeURIComponent(message));
         }
         const isPasswordValid = await bcrypt.compare(password,admin.password)
-        if(isPasswordValid){
+        if(isPasswordValid && verify=== true){
             req.session.admin_id = admin._id;
             res.redirect('/admin/adminpanel');
         }
         else{
             const message = 'invalid admin email and password';
-            res.redirect('/adminlogin?status=success&message='+ encodeURIComponent(message));
+            res.redirect('/admin?status=success&message='+ encodeURIComponent(message));
         }
     }
     catch(error){
         console.log(error.message);
     }
 }
-
-//adminpanel landing page
-// exports.adminPanel = async(req,res) =>{
-//     try{
-//         res.render('adminDash')
-//     }
-//     catch(error){
-//         console.log(error.message);
-//     }
-// }
 
 exports.adminPanel = async (req, res, next) => {
   try {

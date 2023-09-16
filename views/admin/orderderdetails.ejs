@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/admin/adminpanel" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="/admin/userdash" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Users</a>
                     <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Products</a>
                     <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Category</a>
@@ -155,7 +155,7 @@
                         <h5 class="card-title" style="margin-top: 2px;">Ordered Products</h5>
                         <% orders.forEach(orderItem=> { %>
                             <% orderItem.products.forEach(product=> { %>
-                                <div class="card-body col-md-4 border m-1">
+                                <div class="card-body col-md-4 border m-1 text-center">
                                     <div>
                                         <img src="/img/<%= product.productId.img[0] %>" alt="<%= product.productId.name %>"
                                             width="100">
@@ -227,7 +227,7 @@
                             <form id="orderStatusForm" action="update-order-status" method="post">
                                 <input type="hidden" name="id" value="<%= orders[0]._id %>">
                                 <div class="form-group">
-                                    <label for="orderStatus">Order Status:</label>
+                                    <label for="">Order Status:</label>
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" name="orderStatus" id="shipped"
                                             value="Shipped">

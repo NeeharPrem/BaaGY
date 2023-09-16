@@ -10,12 +10,12 @@ exports.loadAddress = async (req, res,next) => {
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
-        const user= await User.findOne({_id:id})
+        const user = await User.find({ _id: id })
         const address= await Address.findOne({user:id})
         if(address){
-            res.render('useraddress',{userData:user,address:address,status,message})
+            res.render('useraddress',{user:user,address:address,status,message})
         }else{
-            res.render('useraddress',{userData:user,address:null,status,message})
+            res.render('useraddress',{user:user,address:null,status,message})
         }
     }
     catch (error) {
@@ -23,14 +23,14 @@ exports.loadAddress = async (req, res,next) => {
     }
 }
 
-// Load add address form
+// Load add address form profile
 exports.loadForm = async (req, res,next) => {
     try {
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
-        const user=User.findOne({_id:id})
-        res.render('addaddress',{usrData:user,status,message})
+        const user= await User.find({_id:id})
+        res.render('addaddress',{user:user,status,message})
     }
     catch (error) {
        next(error.message);
@@ -43,8 +43,8 @@ exports.loadForms = async (req, res,next) => {
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
-        const user=User.findOne({_id:id})
-        res.render('addresscout',{usrData:user,status,message})
+        const user= await User.find({_id:id})
+        res.render('addresscout',{user:user,status,message})
     }
     catch (error) {
         next(error.message);
@@ -126,9 +126,10 @@ exports.removeAdrs = async (req, res,next) => {
 //edit address of the user
 exports.editAddress = async (req, res,next) => {
     try {
-        const user = req.session.user_id;
+        const id = req.session.user_id;
         const addressid = req.query.adsid;
-        const address = await Address.findOne({ user: user });
+        const user=await User.find({_id:id})
+        const address = await Address.findOne({ user:id });
 
         if (!address) {
             return res.status(404).send('Address not found');
@@ -141,7 +142,7 @@ exports.editAddress = async (req, res,next) => {
         if (!addressObject) {
             return res.status(404).send('Address object not found');
         }
-        res.render('editaddress', { usrData: user, adrsData:addressObject});
+        res.render('editaddress', { user: user, adrsData:addressObject});
     } catch (error) {
         next(error.message);
     }
@@ -150,9 +151,10 @@ exports.editAddress = async (req, res,next) => {
 //edit address of the user from chekout
 exports.editAddress1 = async (req, res,next) => {
     try {
-        const user = req.session.user_id;
+        const id = req.session.user_id;
         const addressid = req.query.adsid;
-        const address = await Address.findOne({ user: user });
+        const user= await User.find({_id:id})
+        const address = await Address.findOne({ user: id});
  
         if (!address) {
             return res.status(404).send('Address not found');
@@ -165,7 +167,7 @@ exports.editAddress1 = async (req, res,next) => {
         if (!addressObject) {
             return res.status(404).send('Address object not found');
         }
-        res.render('editaddrscart', { usrData: user, adrsData:addressObject});
+        res.render('editaddrscart', { user:user, adrsData:addressObject});
     } catch (error) {
         next(error.message);
     }

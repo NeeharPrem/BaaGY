@@ -118,7 +118,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% orders.forEach((orderItem, index) => { %>
+                                    <% orders.reverse().forEach((orderItem, index) => { %>
                                         <% const dd = orderItem.date.getDate();
                                            const mm = orderItem.date.getMonth() + 1;
                                            const yyyy = orderItem.date.getFullYear();

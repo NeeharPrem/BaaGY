@@ -1,4 +1,5 @@
-const User = require("../model/usermodel");
+const user = require("../model/usermodel");
+const User=user
 const category = require("../model/categorymodel");
 const Cat = category;
 const product = require("../model/productmodel");
@@ -19,20 +20,25 @@ const jwt = require("jsonwebtoken");
 // Home page controller
 exports.loadHome = async (req, res,next) => {
   try {
-    const sessions = req.session.user_id;
+    const id = req.session.user_id;
+    const user=await User.find({_id:id})
     const banner = await Banner.find({});
-    res.render("Home", { user: sessions,banner:banner});
+    const products= await Products.find({})
+    res.render("Home", { user:user,banner:banner,products:products});
   } catch (error) {
-    next(error);
+    next(error.message);
   }
 };
 
 // signup page controller
 exports.loadSignup = async (req, res,next) => {
   try {
-    res.render("userSignup");
+    const status = req.query.status || "";
+    const message = req.query.message || "";
+    const user=""
+    res.render("userSignup", { user: user, message, status });
   } catch (error) {
-    next(error);
+    next(error.message);
   }
 };
 
@@ -56,16 +62,18 @@ exports.insertUser = async (req, res,next) => {
   try {
     const status = req.query.status || "";
     const message = req.query.message || "";
-    const name = req.body.name;
+    const fname = req.body.fname;
+    const lname = req.body.lname;
     const email = req.body.email;
     const mobile = req.body.mobile;
     const password = req.body.password;
     const refferal = req.body.refferal;
+    req.session.referral=refferal
 
     // Check if the email is already registered
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      const message = "Already registered email Id!!!";
+      const message = "Email already registered";
       return res.redirect(
         "/signup?status=success&message=" + encodeURIComponent(message)
       );
@@ -78,7 +86,8 @@ exports.insertUser = async (req, res,next) => {
     console.log(code)
     // Create new user
     const newUser = new User({
-      name,
+      fname,
+      lname,
       email,
       password: hashedPassword,
       mobile,
@@ -89,10 +98,29 @@ exports.insertUser = async (req, res,next) => {
     await newUser.save();
     const verificationcode = generateOTP();
     otp = verificationcode;
+    console.log(verificationcode)
+    const user=""
     sendOtp(email, verificationcode);
-    res.render("otpVerify",{email:email,refferal:refferal,message,status});
+    res.render("otpVerify",{email:email,refferal:refferal,message,status,user:user});
   } catch (error) {
    next(error.message);
+  }
+};
+
+// resent otp for signup user
+exports.resentOtp1 = async (req, res, next) => {
+  try {
+    const status = req.query.status || "";
+    const message = req.query.message || "";
+    const email = req.query.id;
+    const refferal= req.session.refferal
+    const verificationcode = generateOTP();
+    const user = ""
+    otp = verificationcode;
+    sendOtp(email, verificationcode);
+    res.render("otpVerify", { email: email, refferal: refferal, message, status, user: user });
+  } catch (error) {
+    next(error.message);
   }
 };
 
@@ -103,14 +131,15 @@ exports.loadLogin = async (req, res,next) => {
     const status = req.query.status || "";
     const message = req.query.message || "";
     const blocked = req.query.blocked || "";
-    res.render("userLogin", { status, message, blocked });
+    const user= ""
+    res.render("userLogin", {user:user, status, message, blocked });
   } catch (error) {
     next(error.message);
   }
 };
 
 // Login controller
-exports.verifyLogin = async (req, res) => {
+exports.verifyLogin = async (req, res,next) => {
   try {
     const { email, password } = req.body;
 
@@ -124,12 +153,11 @@ exports.verifyLogin = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     // checking user password
-    if (passwordMatch && !user.blocked) {
+    if (passwordMatch && !user.blocked && user.isVerified=== true) {
       req.session.user_id = user._id;
       const token = jwt.sign({ id: user._id }, process.env.jwtKey);
       req.session.token = token;
       res.redirect("/");
-      // res.json(token)
     } else {
       if (user.blocked == true) {
         const blocked = "You  are Blocked";
@@ -144,7 +172,7 @@ exports.verifyLogin = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    next(error.message);
   }
 };
 
@@ -190,7 +218,7 @@ exports.editprofile = async (req, res,next) => {
 };
 
 // update user username and mobile number
-exports.userupdate = async (req, res) => {
+exports.userupdate = async (req, res,next) => {
   try {
     const id = req.session.user_id;
     const name = req.body.name;
@@ -205,8 +233,7 @@ exports.userupdate = async (req, res) => {
       "/editprofile?status=success&message=" + encodeURIComponent(message)
     );
   } catch (error) {
-    res.status(404).render("404");
-    console.log(error.message);
+    next(error.message);
   }
 };
 
@@ -216,15 +243,15 @@ exports.editpass = async (req, res,next) => {
     const status = req.query.status || "";
     const message = req.query.message || "";
     const id = req.session.user_id;
-    const user = await User.findOne({ _id: id });
-    res.render("editpassword", { usrData: user, status, message });
+    const user = await User.find({ _id: id });
+    res.render("editpassword", { user: user, status, message });
   } catch (error) {
     next(error.message);
   }
 };
 
 // update the current pass to new password
-exports.passupdate = async (req, res) => {
+exports.passupdate = async (req, res,next) => {
   try {
     const { oldpass, confirmpass } = req.body;
     const id = req.session.user_id;
@@ -245,22 +272,22 @@ exports.passupdate = async (req, res) => {
     }
   } catch (error) {
     next(error.message);
-    console.log(error.message);
+    
   }
 };
 
 // forget password page
-exports.forgetpass = async (req, res) => {
+exports.forgetpass = async (req, res,next) => {
   try {
-    res.render("forgetpass");
+    let user=undefined
+    res.render("forgetpass",{user});
   } catch (error) {
-    res.status(404).render("404");
-    console.log(error.message);
+    next(error.message);
   }
 };
 
 // send forgetpass otp and render otp verify page
-exports.sentOtp = async (req, res) => {
+exports.sentOtp = async (req, res,next) => {
   try {
     const status = req.query.status || "";
     const message = req.query.message || "";
@@ -268,11 +295,12 @@ exports.sentOtp = async (req, res) => {
     const verificationcode = generateOTP();
     otp = verificationcode;
     sendOtp(email, verificationcode);
-    res.render("forgetVerify", { email: email,status, message });
+    res.render("forgetVerify", { email: email,status, message,user});
   } catch (error) {
-    console.log(error.message);
+    next(error.message);
   }
 };
+
 
 // resent otp
 exports.resentOtp = async (req, res,next) => {
@@ -283,7 +311,7 @@ exports.resentOtp = async (req, res,next) => {
     const verificationcode = generateOTP();
     otp = verificationcode;
     sendOtp(email, verificationcode);
-    res.render("forgetVerify", { email: email,status,message});
+    res.render("forgetVerify", { email: email,status,message,user});
   } catch (error) {
    next(error.message);
   }
@@ -295,7 +323,7 @@ exports.resetpassOtp = async (req, res,next) => {
     const inputotp = req.body.inputotp;
     const email = req.body.email;
     if (inputotp == otp) {
-      res.render("reeterPass", { email: email });
+      res.render("reeterPass", { email: email,user});
     } else {
       const message="wrong otp"
       res.redirect(
@@ -308,7 +336,7 @@ exports.resetpassOtp = async (req, res,next) => {
 };
 
 // Enter and save new password
-exports.newpass = async (req, res) => {
+exports.newpass = async (req, res,next) => {
   try {
     const email = req.body.email;
     const password = req.body.confirm_password;
@@ -367,6 +395,8 @@ const sendOtp = (email, verificationcode) => {
 // verify otp
 exports.verifyOtp = async (req, res,next) => {
   try {
+    const status = req.query.status || "";
+    const message = req.query.message || "";
     const inputotp = req.body.userotp;
     const email = req.body.email;
     const referral = req.body.refferal;
@@ -388,7 +418,6 @@ exports.verifyOtp = async (req, res,next) => {
           },
         }
       );
-      console.log(check);
 
       const oldUser = await User.findOneAndUpdate(
         { referral: referral },
@@ -413,27 +442,26 @@ exports.verifyOtp = async (req, res,next) => {
           },
         }
       );
-
+      delete req.session.refferal
       res.redirect("/login");
     } else if (inputotp == otp) {
+      const check = await User.findOneAndUpdate({ email: email },{$set: { isVerified: true }});
       res.redirect("/login");
     } else {
       const message = "Wrong OTP"; 
-      res.redirect(
-        "/verifyOtp?status=error&message=" + encodeURIComponent(message)
-      );
+      res.render("otpVerify", { email: email, refferal: referral, message, status, user: user })
     }
   } catch (error) {
     next(error.message);
   }
 };
 
-exports.logout = (req, res) => {
+exports.logout = (req, res,next) => {
   try {
     req.session.destroy();
     res.redirect("/");
   } catch (error) {
-    console.log(error.message);
+    next(error.message);
   }
 };
 
@@ -492,10 +520,11 @@ exports.loadShop = async (req, res, next) => {
 
     const cats = await Cat.find({ status: false });
     const allbrand = await Products.distinct("brand");
+    const users= await User.find({_id:id})
 
     // Render the 'shop' view and pass the retrieved data
     res.render("shop", {
-      user: id,
+      user: users,
       catData: cats,
       selectedCategory,
       selectedBrand,
@@ -510,55 +539,39 @@ exports.loadShop = async (req, res, next) => {
       search,
     });
   } catch (error) {
-    next(error);
+    next(error.message);
   }
 };
 
 
 // show product
-exports.showProduct = async (req, res,next) => {
+exports.showProduct = async (req, res, next) => {
   try {
     const session = req.session.user_id;
     const id = req.query.id;
-    const user= await User.findOne({_id:session})
+      const user = await User.find({_id:session});
+  
     const cart = await Cart.findOne({ user: session });
-    let button = false;
+
+    let button = true; // Set the default value to true
+
     if (cart) {
-      const productArray = cart.product;
-      let foundProduct = null;
-      for (const product of productArray) {
-        if (product.productId.equals(id)) {
-          foundProduct = product;
-          break;
-        }
-      }
+      const foundProduct = cart.product.find((product) => product.productId.equals(id));
 
       if (foundProduct) {
-        const prdts = await Products.findOne({ _id: id, status: false });
-        const prdts1 = await Products.find({
-          _id: { $ne: id },
-          status: false,
-        }).limit(4);
-        res.render("shopdetails", {
-          prdData: prdts,
-          user: session,
-          prdData1: prdts1,
-          cartbt: button,
-        });
-      } else {
-        button = true;
+        button = false; // Product found in the cart, set button to false
       }
-    } else {
-      button = true;
     }
+
     const prdts = await Products.findOne({ _id: id, status: false });
     const prdts1 = await Products.find({
       _id: { $ne: id },
       status: false,
     }).limit(4);
+
     res.render("shopdetails", {
       prdData: prdts,
-      user: session,
+      user: user,
       prdData1: prdts1,
       cartbt: button,
     });
@@ -567,8 +580,9 @@ exports.showProduct = async (req, res,next) => {
   }
 };
 
+
 // Add products to the wishlist
-exports.toWishlist = async (req, res) => {
+exports.toWishlist = async (req, res,next) => {
   try {
     const user = req.session.user_id;
     const productId = req.query.id;
@@ -588,7 +602,7 @@ exports.toWishlist = async (req, res) => {
 };
 
 // Remove products to the wishlist
-exports.outWishlist = async (req, res) => {
+exports.outWishlist = async (req, res,next) => {
   try {
     const user = req.session.user_id;
     const Id = req.query.id;
@@ -597,8 +611,7 @@ exports.outWishlist = async (req, res) => {
       await User.findByIdAndUpdate(user, { $pull: { wishlist: Id } });
     res.redirect("/wishlist");
   } catch (error) {
-    res.status(404).render("404");
-    console.log(error.message);
+    next(error.message);
   }
 };
 
@@ -621,12 +634,10 @@ exports.loadWishlist = async (req, res,next) => {
 // payment success page
 exports.success = async (req, res,next) => {
   try {
-     const user = req.session.user_id
-     const orders= await Order.findOne({user})
-     console.log(orders)
-     const userIn= await User.findOne({_id:user})
-     console.log(userIn)
-    res.render("success", { orders, userIn });
+         const user = req.session.user_id
+         const orders = await Order.find({ user })
+         const userIn = await User.findOne({ _id: user })
+         res.render("success", { orders, userIn });
   } catch (error) {
     next(error.message);
   }
@@ -641,12 +652,75 @@ exports.failed = async (req, res,next) => {
   }
 };
 
-// payment failed page
-exports.zoom = async (req, res, next) => {
+// load about page
+exports.about = async (req, res, next) => {
   try {
-    res.render("zoom");
+    res.render("about");
   } catch (error) {
     next(error.message);
   }
 };
 
+// load contact us page
+exports.contactus = async (req, res, next) => {
+  try {
+    const id= req.session.user_id
+    if(id){
+      var user= await User.find({_id:id})
+    }
+    const status = req.query.status || "";
+    const message = req.query.message || "";
+    res.render("contactus",{status,message,user});
+  } catch (error) {
+    next(error.message);
+  }
+};
+
+// submit contact form
+exports.contactsubmit = async (req, res, next) => {
+  try {
+    const email= req.body.email
+    const name= req.body.name
+    const subject=req.body.subject
+    const message=req.body.message
+    sendmail(email,name,subject,message,res)
+
+  } catch (error) {
+    next(error.message);
+  }
+};
+
+// Sending otp to mail
+const sendmail = (email, name, subject, message, res) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'baagystore@gmail.com',
+      pass: process.env.PASSWORD, // Ensure you have the correct environment variable set
+    },
+  });
+
+  const mailOptions = {
+    from: 'baagystore@gmail.com',
+    to: 'baagystore@gmail.com', // Replace with the recipient's email address
+    subject: subject,
+    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log('Error sending email:', error);
+      if (res) {
+        res.redirect('/error'); // Redirect to an error page or handle the error appropriately
+      }
+    } else {
+      console.log('Email sent:', info.response);
+      if (res) {
+        const message = "Thank You For Contacting Us"
+        res.redirect(
+          "/contact?status=success&message=" + encodeURIComponent(message)
+        );
+      }
+    }
+  });
+};

@@ -2,34 +2,39 @@
 <div class="signup">
     <h2 style="text-align:center;">Sign Up</h2>
     <p style="text-align:center;">Please fill this form to create an account.</p>
+    <%if(status !=='undefined' ) {%>
+      <h5 class="text-center text-danger">
+        <%= message %>
+      </h5>
+      <%}%>
     <form action="signup" method="post">
         <div class="form-group">
-            <input type="text" name="name" class="form-control" id="name1" placeholder="Enter your name" onchange="validatename()">
-            <span class="span-text" id="nameError" style="color: #db1d1d"></span>
-        </div>    
+            <input type="text" name="fname" class="form-control" id="name1" placeholder="First name" onchange="validatefname()">
+            <span class="span-text" id="fnameError" style="color: #db1d1d"></span>
+        </div>
+        <div class="form-group">
+          <input type="text" name="lname" class="form-control" id="name2" placeholder="Last name"
+            onchange="validatelname()">
+          <span class="span-text" id="lnameError" style="color: #db1d1d"></span>
+        </div>
         <div class="form-group">
        <input class="form-control" name="email" id="email1" placeholder="Your Email"  onchange="validateEmail()">
        <span class="span-text" id="emailError" style="color: #db1d1d"></span>
-       <% if(locals.invalidEmail){%>
-         <%= invalidEmail %>
-         <%}%>
         </div> 
         <div class="form-group">
-            <input type="text" name="mobile" class="form-control" placeholder="Mobile number">
-        </div>  
+          <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile number">
+          <span class="span-text" id="mobileError" style="color: #db1d1d"></span>
+        </div>
         <div class="form-group">
             <input type="password" name="password" class="form-control" id="pass1" placeholder="Enter a Password" onchange="validatepass()">
-       <span class="span-text" id="passError" style="color: #db1d1d"></span>
-       <% if(locals.invalidPassword){%>
-         <%= invalidPassword %>
-         <%}%>
+       <span class="span-text" id="passError1" style="color: #db1d1d"></span>
         </div>
         <div class="form-group">
-            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
+            <input type="password" name="confirm_password" id="pass2" class="form-control" placeholder="Confirm Password" onchange="validatePasswordMatch()">
+            <span class="span-text" id="passError2" style="color: #db1d1d"></span>
         </div>
         <div class="form-group">
-            <input type="text" name="refferal" class="form-control" id="refferal" placeholder="Enter a refferal code">
-            <!-- <span class="span-text" id="nameError" style="color: #db1d1d"></span> -->
+            <input type="text" name="refferal" class="form-control" id="refferal" placeholder="Enter a refferal code (optional)">
         </div>
         <div class="d-flex justify-content-between">
             <div><span class="span-text" id="submit-error" style="color: #db1d1d"></span></div>
@@ -41,84 +46,5 @@
     </form>
 </div>
 
-<script>
-    var emailError = document.getElementById("emailError");
-    var nameError = document.getElementById("nameError");
-    var passError = document.getElementById("passError");
-    var submitError = document.getElementById("submit-error");
-    
-    function validatename() {
-      var name1 = document.getElementById("name1").value.replace(/\s/g, "");
-    
-      if (name1.length === 0) {
-        nameError.innerHTML = "Name is required";
-        return false;
-      }
-    
-      var numberRegex = /^\d+$/;
-      if (numberRegex.test(name1)) {
-        nameError.innerHTML = "Name cannot be a number";
-        return false;
-      }
-    
-      nameError.innerHTML = "";
-      return true;
-    }
-    
-    function validateEmail() {
-      var email1 = document.getElementById("email1").value;
-    
-      if (email1.length === 0) {
-        emailError.innerHTML = "Email is required";
-        return false;
-      }
-    
-      var emailParts = email1.split(".");
-      if (emailParts.length < 2 || emailParts[emailParts.length - 1].length < 2) {
-        emailError.innerHTML = "Email is invalid";
-        return false;
-      }
-    
-      if (email1.indexOf("@") === -1 || email1.indexOf(".") === -1) {
-        emailError.innerHTML = "Email is invalid";
-        return false;
-      }
-    
-      emailError.innerHTML = "";
-      return true;
-    }
-    
-    function validatepass() {
-    var password1 = document.getElementById("pass1").value;
-    var alphabetRegex = /[a-zA-Z]/;
-    if (!password1) {
-      passError.innerHTML = "Password is required";
-      return false;
-    }
-
-    if (!alphabetRegex.test(password1)) {
-      passError.innerHTML = "Password should contain at least one alphabet";
-      return false;
-    }
-
-    if (password1.length < 8) {
-      passError.innerHTML = "Password should be at least 8 characters long";
-      return false;
-    }
-    passError.innerHTML = "";
-    return true;
-  }
-    
-    function validateForm() {
-      if (!validatename() || !validateEmail() || !validatepass()) {
-        submitError.style.display = "block";
-        submitError.innerHTML = "Please fill the form correctly";
-        setTimeout(function () {
-          submitError.style.display = "none";
-        }, 3000);
-        return false;
-      }
-      return true;
-    }
-    </script>
+    <script src="/js/signupverify.js"></script>
 <%- include('../layout/footer.ejs') -%>

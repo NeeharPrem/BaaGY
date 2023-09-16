@@ -57,11 +57,14 @@ function ajaxConnection(amt, productId, spanID) {
         },
         success: (res) => {
             console.log(res)
-            if (res.status == true) {
+            if (res.status == true && res.loadcart == false) {
+                console.log("no")
                 $('#cartTotal').html(`₹ ${res.data.Total}`);
                 $(`#${spanID}y`).html(`₹ ${res.data.price}`)
                 document.getElementById(`${spanID}plus`).disabled = false
                 document.getElementById(`${spanID}minus`).disabled = false
+            } else if (res.status == true && res.loadcart == true) {
+                window.location.href = '/loadcart';
             } else if (res.status == false) {
                 $('#msg').html(res.data);
             }

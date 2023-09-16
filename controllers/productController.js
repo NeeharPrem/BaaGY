@@ -74,7 +74,7 @@ exports.productUpdate=async(req,res)=>{
         for(let file of req.files){
             img.push(file.filename)
         }
-        const prdData = await Products.findByIdAndUpdate({_id:id},{$push:{img:{$each:img}},$set:{
+        await Products.findByIdAndUpdate({_id:id},{$push:{img:{$each:img}},$set:{
             name : name,
             price : price,
             actual: actual,

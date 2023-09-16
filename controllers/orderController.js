@@ -13,6 +13,7 @@ const Coupon=coupons
 const Razorpay = require('razorpay');
 const easyinvoice=require('easyinvoice')
 const fs = require('fs');
+// const { log } = require('console');
 
 // razor pay instance
 var instance = new Razorpay({
@@ -67,19 +68,32 @@ exports.orderDetails = async (req, res,next) => {
     }
 };
 
- 
-
 
 // Load checkout page
 exports.loadCheckout = async (req, res,next) => {
     try {
-      const user = req.session.user_id;
-      const userData= await Users.findOne({_id:user})
-      const address = await Address.findOne({ user: user });
-      const carts = await Cart.findOne({ user: user }).populate('product.productId');  
-     res.render('checkout', { cart: carts, address: address,userData:userData});
+      const id = req.session.user_id;
+      const userData= await Users.find({_id:id})
+      const address = await Address.findOne({ user: id});
+      const carts = await Cart.findOne({ user:id }).populate('product.productId');
+        const productList = carts.product.map(({ productId, count }) => ({
+            productId,
+            name: productId.name,
+            price: productId.price,
+            count,
+        }));
+
+        let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
+        if(total != carts.total){
+            const discount= total- carts.total
+            res.render('checkout', { cart: carts, address: address, user: userData ,discount});
+        }else{
+            const discount= undefined
+            res.render('checkout', { cart: carts, address: address, user: userData,discount});
+        }
+    
     } catch (error) {
-        next(error);
+        next(error.message);
     }
   };
   
@@ -88,12 +102,11 @@ exports.loadCheckout = async (req, res,next) => {
  // place the order
  exports.placeOrder = async (req, res,next) => {
     try {
-        console.log("payment : ",req.body)
         const user = req.session.user_id;
         const addId = req.body.addressId[0];
         const wallet=req.body.wallet
         req.session.addId = addId;
-        req.session.wallet=wallet
+        req.session.wallet= wallet
         const paymentMethod = req.body.paymentMethod;
 
         const address = await Address.findOne({ user: user, "address._id": addId });
@@ -116,22 +129,28 @@ exports.loadCheckout = async (req, res,next) => {
     
         let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
         const carttotal= cartData.total
+        var payamount= carttotal
         const coupons = req.session.appliedcoupon
+
         if (coupons && carttotal !== total) {
             const coupon = await Coupon.findOne({ name: coupons });
+            var discount=0
             const maxAmount = coupon.maxdiscount
-            const discount = total * (coupon.discount / 100);
+            discount = total * (coupon.discount / 100);
+            req.session.discount= discount
             const newTotal = total - discount;
             if (newTotal >= maxAmount) {
-                var payamount = total - maxAmount
+                req.session.discount = maxAmount
+                 payamount = total - maxAmount
             } else {
-                var payamount = newTotal
+                payamount = newTotal
             }
 
         }
 
         if (paymentMethod === 'COD') {
             const date = new Date();
+            const discount = req.session.discount
     
             const newOrder = new Order({
                 user: user,
@@ -141,6 +160,8 @@ exports.loadCheckout = async (req, res,next) => {
                 paymentMode: paymentMethod,
                 address: addressObject,
                 total: payamount,
+                coupon:coupons,
+                discount:discount,
             });
     
             await newOrder.save();
@@ -164,6 +185,7 @@ exports.loadCheckout = async (req, res,next) => {
     
         } else if (paymentMethod === 'Razorpay') {
             if(wallet){
+                console.log("with v",payamount)
                 // console.log('Payment method razorpay');
                 const newTotal = payamount - walletBalance
                 const options = {
@@ -179,7 +201,7 @@ exports.loadCheckout = async (req, res,next) => {
                 // console.log(order);
                 res.json({ status: 'Razorpay', order: order })
             }else{
-                
+                console.log("no v",payamount)
                 const options = {
                     amount: Math.round(payamount * 100),
                     currency: 'INR',
@@ -194,9 +216,10 @@ exports.loadCheckout = async (req, res,next) => {
                 res.json({ status: 'Razorpay', order: order })
             }
         }else if (paymentMethod === 'wallet'){
+            let discount = req.session.discount
             const userData = await Users.findOne({_id:user})
             const walletBalance= userData.wallet
-            const newBalance= Math.abs(walletBalance-total)
+            const newBalance= Math.abs(walletBalance-payamount)
             // const status = "Confirmed";
             const date = new Date();
 
@@ -207,7 +230,9 @@ exports.loadCheckout = async (req, res,next) => {
                 orderStatus: status,
                 paymentMode: paymentMethod,
                 address: addressObject,
-                total: total,
+                total: payamount,
+                coupon: coupons,
+                discount: discount,
             });
 
             await newOrder.save();
@@ -266,8 +291,11 @@ exports.loadCheckout = async (req, res,next) => {
         hmac = hmac.digest('hex');
  
         if (hmac === details.response.razorpay_signature) {
+            const status = 'Confirmed';
              
             // Fetching user's cart data
+            const coupon= req.session.appliedcoupon
+            const discount= req.session.discount
             const cartData = await Cart.findOne({ user: user }).populate("product.productId");
             const productList = cartData.product.map(
                 ({ productId, count }) => ({
@@ -275,6 +303,7 @@ exports.loadCheckout = async (req, res,next) => {
                     name: productId.name,
                     price: productId.price,
                     count,
+                    orderStatus: status,
                 })
             );
 
@@ -296,7 +325,6 @@ exports.loadCheckout = async (req, res,next) => {
                 const newTotal = payamount - walletBalance
 
                 const date = new Date();
-                const status = 'Confirmed';
 
                 // Creating a new order
                 const newOrder = new Order({
@@ -307,6 +335,8 @@ exports.loadCheckout = async (req, res,next) => {
                     paymentMode: 'Razorpay',
                     address: addressObject,
                     total: newTotal,
+                    coupon: coupon,
+                    discount: discount,
                 });
                 await newOrder.save();
 
@@ -357,7 +387,9 @@ exports.loadCheckout = async (req, res,next) => {
                     orderStatus: status,
                     paymentMode: 'Razorpay',
                     address: addressObject,
-                    total: total,
+                    total: payamount,
+                    coupon: coupon,
+                    discount: discount,
                 });
                 await newOrder.save();
 
@@ -405,7 +437,7 @@ exports.cancelOrder = async (req, res,next) => {
         // // Save the updated order with the cancelled product statuses
         await order.save();
         const payType= order.paymentMode
-        if(payType == 'Razorpay'){
+        if(payType == 'Razorpay' || payType== 'wallet'){
             const incrementValue = order.total;
             await Users.updateOne(
               { _id: user },
@@ -426,28 +458,44 @@ exports.cancelProduct = async (req, res, next) => {
         const user = req.session.user_id;
         const id = req.body.id
         const pid= req.body.pid
+        
         // await Order.updateOne({ _id: id }, { $set: { orderStatus: 'Cancelled' } });
         const order = await Order.findOne({ _id: id })
-        
+        const product= await Products.findOne({_id:pid})
+        const discount = order.discount
+        console.log(order.products.length)
+        const total=order.total
+  
+        const productprice=product.price
+
+        const couponname =order.coupon
+
+        const coupon= await Coupon.findOne({name:couponname})
+     
+        const cpnprice=coupon.min_amt
         for (const product of order.products) {
-            if (product._id == pid) {
+           
+            if (product.productId._id == pid) {
                 product.orderStatus = 'Cancelled';
             }
         }
-
         // // Save the updated order with the cancelled product statuses
         await order.save();
-        // const payType = order.paymentMode
-        // if (payType == 'Razorpay') {
-        //     const incrementValue = order.total;
-        //     await User.updateOne(
-        //         { _id: user },
-        //         { $inc: { wallet: incrementValue } }
-        //     );
-        //     res.redirect(`/viewDetails?id=${id}`);
-        // } else {
-        res.redirect(`/viewDetails?id=${id}`);
-        
+
+        if ((total + discount - productprice) <cpnprice){
+            console.log('1');
+                var refund= productprice -  discount/order.products.length
+            const payType = order.paymentMode
+            if (payType == 'Razorpay'|| payType=="wallet") {
+                await Users.updateOne(
+                    { _id: user },
+                    { $inc: { wallet: refund } }
+                );
+                res.redirect(`/viewDetails?id=${id}`);
+        }else{
+                res.redirect(`/viewDetails?id=${id}`);
+        }
+    }
     } catch (error) {
         next(error);
     }
@@ -476,7 +524,7 @@ exports.returnProduct = async (req, res, next) => {
         if (user) {
             const order = await Order.findOne({ _id: id })
             for (const product of order.products) {
-                if (product._id == pid) {
+                if (product.productId._id == pid) {
                     product.returnStatus = true
                 }
             }
@@ -552,8 +600,23 @@ exports.updateStatus= async (req, res,next) => {
        if (status === 'Return') {
         const userId = order.user;
         const incrementValue = order.total;
-
-        await Users.updateOne({ _id: userId }, { $inc: { wallet: incrementValue } });
+        let user=await Users.findOne({ _id: userId});
+        const walletBalance=user.wallet
+           
+        await Users.findOneAndUpdate(
+               { _id: userId }, { $inc: { wallet: incrementValue } },
+               {
+                   $push: {
+                       walletHistory: {
+                           date: Date.now(),
+                           amount: incrementValue,
+                           type: "Credit",
+                           balance: walletBalance,
+                           details: "Refund amount",
+                       },
+                   },
+               }
+           );
     }
         res.redirect(`/admin/orderDetails?id=${orderId}`);
     } catch (error) {
@@ -573,7 +636,6 @@ exports.approveReturn = async (req, res, next) => {
                     product.orderStatus = "Return"
                 }
             }
-
             // // Save the updated order with the cancelled product statuses
             await order.save();
             // await Order.updateOne({ _id: id }, { $set: { returnStatus: true } });

@@ -1,5 +1,5 @@
 body {
-     background: #e9e6da;
+     background: #ffffff;
      height: 20em;
    }
 
@@ -9,6 +9,7 @@ body {
      overflow: hidden;
      margin: 50px auto;
      padding: 30px;
+     border: solid #000000 1px;
      border-radius: 10px;
      position: relative;
    }
@@ -19,6 +20,7 @@ body {
      overflow: hidden;
      margin: 50px auto;
      padding: 30px;
+      border: solid #000000 1px;
      border-radius: 10px;
      position: relative;
    }
@@ -29,6 +31,7 @@ body {
      overflow: hidden;
      margin: 50px auto;
      padding: 30px;
+     border: solid #000000 1px;
      border-radius: 10px;
      position: relative;
    }
@@ -39,6 +42,7 @@ body {
      overflow: hidden;
      margin: 50px auto;
      padding: 30px;
+     border: solid #000000 1px;
      border-radius: 10px;
      position: relative;
    }

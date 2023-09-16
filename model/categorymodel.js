@@ -12,6 +12,10 @@ const categoryData = new mongoose.Schema({
   offer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "offer",
+  },
+  img: {
+    type: Array,
+    maxItems: 2,
   }
 });
 module.exports=mongoose.model('category',categoryData)
