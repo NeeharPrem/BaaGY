@@ -25,33 +25,36 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, w:
     .catch((err) => {
         console.error('Error during connecting to MongoDB', err);
     });
-   
+
 // Load static contents
 app.use(express.static(path.join(__dirname, 'public')));
 
 // User route
 const userRoute = require('./routes/userRoute');
 app.use('/', userRoute);
+
 // Admin route
 const adminRoute = require('./routes/adminRoute');
 app.use('/admin', adminRoute);
 
+// Error handling middleware
 const errorHandler = (err, req, res, next) => {
     console.error(err);
     res.status(500).render('error', { message: 'Internal Server Error' });
-  };
-  
+};
+
 app.use(errorHandler);
 
+// 404 Not Found
 app.use((req, res) => {
-    res.status(404).render('error')
-})
-
+    res.status(404).render('error');
+});
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
+// Handling uncaught exceptions
 process.on('uncaughtException', (err) => {
     console.error('Uncaught Exception:', err);
     process.exit(1);

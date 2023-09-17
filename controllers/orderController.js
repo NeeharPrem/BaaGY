@@ -76,20 +76,24 @@ exports.loadCheckout = async (req, res,next) => {
       const userData= await Users.find({_id:id})
       const address = await Address.findOne({ user: id});
       const carts = await Cart.findOne({ user:id }).populate('product.productId');
-        const productList = carts.product.map(({ productId, count }) => ({
-            productId,
-            name: productId.name,
-            price: productId.price,
-            count,
-        }));
+        if(cart){
+            const productList = carts.product.map(({ productId, count }) => ({
+                productId,
+                name: productId.name,
+                price: productId.price,
+                count,
+            }));
 
-        let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
-        if(total != carts.total){
-            const discount= total- carts.total
-            res.render('checkout', { cart: carts, address: address, user: userData ,discount});
+            let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
+            if (total != carts.total) {
+                const discount = total - carts.total
+                res.render('checkout', { cart: carts, address: address, user: userData, discount });
+            } else {
+                const discount = undefined
+                res.render('checkout', { cart: carts, address: address, user: userData, discount });
+            }
         }else{
-            const discount= undefined
-            res.render('checkout', { cart: carts, address: address, user: userData,discount});
+            res.redirect('/')
         }
     
     } catch (error) {
