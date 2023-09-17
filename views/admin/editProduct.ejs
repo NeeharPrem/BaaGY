@@ -45,27 +45,26 @@
                             <div class="row ">
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Name</label>
-                                    <input type="text" name="name" class="form-control" id="pname"
-                                        value="<%=prdData.name%>" onchange="validatepname()">
-                                        <span class="span-text" id="pnameError" style="color: #db1d1d"></span>
+                                    <input type="text" name="name" class="form-control" id="name"
+                                        value="<%=prdData.name%>">
+                                        <span class="span-text" id="nameError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Brand</label>
-                                    <input class="form-control" id="brand" name="brand" value="<%=prdData.brand%>" onchange="validatebrand()">
+                                    <input class="form-control" id="brand" name="brand" value="<%=prdData.brand%>">
                                     <span class="span-text" id="brandError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control"
                                         value="<%=prdData.quantity%>">
-                                        <span class="span-text" id="qtyError" style="color: #db1d1d"></span>
+                                        <span class="span-text" id="quantityError" style="color: #db1d1d"></span>
                                 </div>
                             </div>
                             <div class="row ">
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark">Actual price</label>
-                                    <input type="number" name="actual" class="form-control" id="actual" value="<%=prdData.actual%>"
-                                        onchange="validateActual()" min="1">
+                                    <input type="number" name="actual" class="form-control" id="actual" value="<%=prdData.actual%>" min="1">
                                     <span class="span-text" id="actualError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
@@ -85,14 +84,14 @@
                                     <label for="exampleInputname" class="mb-2 text-dark ">Material</label>
                                     <input type="text" name="material" id="material" class="form-control"
                                         value="<%=prdData.material%>" required>
-                                        <span class="span-text" id="matrlError" style="color: #db1d1d"></span>
+                                        <span class="span-text" id="materialError" style="color: #db1d1d"></span>
                                 </div>
                             </div>
                             <div class="form-group col">
                                 <label for="floatingTextarea mt-3" class="mb-1 text-dark ">Description</label>
                                 <textarea type="text" name="description" id="description" class="form-control mt-2 mb-2"
                                     style="height: 150px;" id="floatingTextarea"><%=prdData.description%></textarea>
-                                    <span class="span-text" id="descritionError" style="color: #db1d1d"></span>
+                                    <span class="span-text" id="descriptionError" style="color: #db1d1d"></span>
                             </div>
                             <div class="row">
                                 <div class="col w-25">
@@ -129,8 +128,9 @@
                                     <%}%>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
+                                <div><span class="span-text" id="submit-error" style="color: #db1d1d"></span></div>
                                 <button type="submit" value="submit" id="submitButton"
-                                    class="btn btn-warning">Edit</button>
+                                    class="btn btn-warning" onclick="return validateForm()">Edit</button>
                             </div>
                         </form>
                     </div>
@@ -160,60 +160,6 @@
         });
     </script>
 
-<script>
-    var pnameError = document.getElementById("pnameError");
-    var brandError = document.getElementById("brandError");
-    var qtyError = document.getElementById("qtyError");
-    var actualError = document.getElementById("actualError");
-    var priceError = document.getElementById("priceError");
-    var discountError = document.getElementById("discountError");
-    var materialError = document.getElementById("matrlError");
-    var descritionError = document.getElementById("descritionError");
-     function validatepname() {
-            var pname = document.getElementById("pname").value.replace(/\s/g, "");
-
-            if (pname.length === 0) {
-                pnameError.innerHTML = "Product name is required";
-                return false;
-            }
-
-            var numberRegex = /^\d+$/;
-            if (numberRegex.test(pname)) {
-                pnameError.innerHTML = "Prosuct name cannot be a number";
-                return false;
-            }
-
-            pnameError.innerHTML = "";
-            return true;
-        }
-
-        function validatebrand() {
-                var brand = document.getElementById("brand").value.replace(/\s/g, "");
-
-                if (brand.length === 0) {
-                    brandError.innerHTML = "Brand name is required";
-                    return false;
-                }
-
-                var numberRegex = /^\d+$/;
-                if (numberRegex.test(brand)) {
-                    brandError.innerHTML = "Brand name cannot be a number";
-                    return false;
-                }
-
-                brandError.innerHTML = "";
-                return true;
-            }
-        function validateActual() {
-                var actualInput = document.getElementById('actual');
-                   console.log(actualInput)
-                if (actualInput < 0) {
-                   console.log(typeof actualInput)
-                    actualError.innerHTML = 'Value cannot be negative';
-                } else {
-                    actualError.textContent = ''; // Clear the error message if the value is valid
-                }
-            }
-    </script>
+    <script src="/js/editproductvalid.js"></script>
 
 <%- include('../layout/adfooter.ejs') -%>

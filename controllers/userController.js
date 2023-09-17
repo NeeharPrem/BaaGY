@@ -221,12 +221,13 @@ exports.editprofile = async (req, res,next) => {
 exports.userupdate = async (req, res,next) => {
   try {
     const id = req.session.user_id;
-    const name = req.body.name;
+    const fname = req.body.fname;
+    const lname = req.body.lname;
     const mobileString = req.body.mobile;
     const mobile = parseInt(mobileString, 10);
     await User.findOneAndUpdate(
       { _id: id },
-      { $set: { name: name, mobile: mobile } }
+      { $set: { fname: fname,lname:lname, mobile: mobile } }
     );
     const message = "udpated";
     res.redirect(

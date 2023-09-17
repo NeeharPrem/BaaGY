@@ -39,45 +39,53 @@
             <!-- contents starts -->
             <div class="d-flex h-100 justify-content-center align-items-center bg-light pt-4">
                 <form enctype="multipart/form-data" action="newproduct" method="post"
-                    class="container py-4 px-5 rounded shadow-sm bg-success">
+                    class="container py-4 px-5 rounded shadow-sm" style="background-color: rgb(171, 190, 190);">
                     <div class="row ">
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Name</label>
+                            <input type="text" name="name" class="form-control" id="pname">
+                            <span class="span-text" id="nameError" style="color: #db1d1d"></span>
                         </div>
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Brand</label>
-                            <input class="form-control" name="brand" placeholder="">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Brand</label>
+                            <input class="form-control" name="brand" id="brand">
+                            <span class="span-text" id="brandError" style="color: #db1d1d"></span>
                         </div>
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Quantity</label>
-                            <input type="text" name="quantity" class="form-control">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Quantity</label>
+                            <input type="number" name="quantity" class="form-control" id="quantity">
+                            <span class="span-text" id="quantityError" style="color: #db1d1d"></span>
                         </div>
                     </div>
                     <div class="row ">
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Actual price</label>
-                            <input type="text" name="actual" class="form-control" id="brand" placeholder="">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Actual price</label>
+                            <input type="number" name="actual" class="form-control" id="actual" value="0">
+                            <span class="span-text" id="actualError" style="color: #db1d1d"></span>
                         </div>
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Current Price</label>
-                            <input type="text" name="price" class="form-control" id="material" placeholder="">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Current Price</label>
+                            <input type="number" name="price" class="form-control" id="price" value="0">
+                            <span class="span-text" id="priceError" style="color: #db1d1d"></span>
                         </div>
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Discount</label>
-                            <input type="text" name="discount" class="form-control" id="material" placeholder="">
+                            <label for="exampleInputname" class="mb-2 text-dark ">Discount</label>
+                            <input type="number" name="discount" class="form-control" id="discount" value="0">
+                            <span class="span-text" id="discountError" style="color: #db1d1d"></span>
                         </div>
                     </div>
                     <div class="row ">
                         <div class="form-group col">
-                            <label for="exampleInputname" class="mb-2 text-white ">Material</label>
+                            <label for="exampleInputname" class="mb-2 text-dark ">Material</label>
                             <input type="text" name="material" class="form-control" id="material">
+                            <span class="span-text" id="materialError" style="color: #db1d1d"></span>
                         </div>
                     </div>
                     <div class="form-group col">
-                        <label for="floatingTextarea mt-3" class="mb-1 text-white ">Description</label>
+                        <label for="floatingTextarea mt-3" class="mb-1 text-dark ">Description</label>
                         <textarea name="description" class="form-control mt-2 mb-2" style="height: 150px;"
                             id="floatingTextarea" placeholder="Description"></textarea>
+                            <span class="span-text" id="descriptionError" style="color: #db1d1d"></span>
                     </div>
                     <div class="row">
                         <div class="form-group col-6 btn-light w-25">
@@ -98,9 +106,11 @@
                             </select>
                             <input type="hidden" id="favourite" name="category">
                         </div>
+                        <div><span class="span-text" id="submit-error" style="color: #db1d1d"></span></div>
                     </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <button type="submit" value="submit" id="submitButton" class="btn btn-warning">Add</button>
+                    
+                    <div class="d-flex justify-content-center text-center mt-3">
+                        <button type="submit" value="submit" id="submitButton" class="btn btn-warning" onclick="return validateForm()">Add</button>
                     </div>
                 </form>
             </div>
@@ -119,4 +129,6 @@
             });
         });
     </script>
+    
+    <script src="/js/addproductvalid.js"></script>
     <%- include('../layout/adfooter.ejs') -%>
