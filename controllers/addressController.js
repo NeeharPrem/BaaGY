@@ -10,12 +10,13 @@ exports.loadAddress = async (req, res,next) => {
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
+        const wish = req.session.wishlist
         const user = await User.find({ _id: id })
         const address= await Address.findOne({user:id})
         if(address){
-            res.render('useraddress',{user:user,address:address,status,message})
+            res.render('useraddress',{user:user,address:address,status,message,wish})
         }else{
-            res.render('useraddress',{user:user,address:null,status,message})
+            res.render('useraddress',{user:user,address:null,status,message,wish})
         }
     }
     catch (error) {
@@ -29,8 +30,9 @@ exports.loadForm = async (req, res,next) => {
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
+        const wish = req.session.wishlist
         const user= await User.find({_id:id})
-        res.render('addaddress',{user:user,status,message})
+        res.render('addaddress',{user:user,status,message,wish})
     }
     catch (error) {
        next(error.message);
@@ -40,11 +42,12 @@ exports.loadForm = async (req, res,next) => {
 // Load add address form from checkout page
 exports.loadForms = async (req, res,next) => {
     try {
+        const wish= req.session.wishlist
         const status = req.query.status || ''; 
         const message = req.query.message || '';
         const id=req.session.user_id
         const user= await User.find({_id:id})
-        res.render('addresscout',{user:user,status,message})
+        res.render('addresscout',{user:user,status,message,wish})
     }
     catch (error) {
         next(error.message);
@@ -128,6 +131,7 @@ exports.editAddress = async (req, res,next) => {
     try {
         const id = req.session.user_id;
         const addressid = req.query.adsid;
+        const wish = req.session.wishlist
         const user=await User.find({_id:id})
         const address = await Address.findOne({ user:id });
 
@@ -142,7 +146,7 @@ exports.editAddress = async (req, res,next) => {
         if (!addressObject) {
             return res.status(404).send('Address object not found');
         }
-        res.render('editaddress', { user: user, adrsData:addressObject});
+        res.render('editaddress', { user: user, adrsData:addressObject,wish});
     } catch (error) {
         next(error.message);
     }
@@ -151,6 +155,7 @@ exports.editAddress = async (req, res,next) => {
 //edit address of the user from chekout
 exports.editAddress1 = async (req, res,next) => {
     try {
+        const wish=req.session.wishlist
         const id = req.session.user_id;
         const addressid = req.query.adsid;
         const user= await User.find({_id:id})
@@ -167,7 +172,7 @@ exports.editAddress1 = async (req, res,next) => {
         if (!addressObject) {
             return res.status(404).send('Address object not found');
         }
-        res.render('editaddrscart', { user:user, adrsData:addressObject});
+        res.render('editaddrscart', { user:user, adrsData:addressObject,wish});
     } catch (error) {
         next(error.message);
     }

@@ -25,6 +25,7 @@ router.set('view engine','ejs');
 router.set('views','./views/user');
 
 
+
 // Load Homepage
 router.get('/',userController.loadHome);
 
@@ -118,7 +119,7 @@ router.post('/placeorder', nocache(),orderController.placeOrder)
 // apply coupons
 router.post('/applycpn',couponController.applyCoupon)
 // Remove coupons
-router.get('/removecpn', auth.isLogin,couponController.removeCoupon)
+router.post('/removecpn', auth.isLogin,couponController.removeCoupon)
 // place order using Razorpay
 router.post('/verifyPayment',orderController.verifyPayment)
 // user order management

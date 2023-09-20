@@ -25,8 +25,9 @@ var instance = new Razorpay({
 exports.loadOrders=async(req,res,next)=>{
    try {
       const user=req.session.user_id
+      const wish = req.session.wishlist
       const orders = await Order.find({ user:user}).populate("products.productId")
-       res.render('userorders',{user:user,Order:orders})
+       res.render('userorders',{user:user,Order:orders,wish})
    } catch (error) {
     next(error);
    }
@@ -37,6 +38,7 @@ exports.orderDetails = async (req, res,next) => {
     try {
         const user = req.session.user_id;
         const orderId = req.query.id;
+        const wish = req.session.wishlist
    
         const orders = await Order.find({ _id: orderId }).populate('products.productId');
 
@@ -62,7 +64,7 @@ exports.orderDetails = async (req, res,next) => {
         const addressObject = address.address.find(
             (address) => address._id.toString() === addressId
         );
-        res.render('orderDetails', { user: user, orders: orders,rdate, addrs: addressObject});
+        res.render('orderDetails', { user: user, orders: orders,rdate, addrs: addressObject,wish});
     } catch (error) {
         next(error);
     }
@@ -76,7 +78,9 @@ exports.loadCheckout = async (req, res,next) => {
       const userData= await Users.find({_id:id})
       const address = await Address.findOne({ user: id});
       const carts = await Cart.findOne({ user:id }).populate('product.productId');
-        if(cart){
+        const wish = userData[0].wishlist.length
+        req.session.wishlist=wish
+        if (carts.product.length > 0){
             const productList = carts.product.map(({ productId, count }) => ({
                 productId,
                 name: productId.name,
@@ -87,10 +91,10 @@ exports.loadCheckout = async (req, res,next) => {
             let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
             if (total != carts.total) {
                 const discount = total - carts.total
-                res.render('checkout', { cart: carts, address: address, user: userData, discount });
+                res.render('checkout', { cart: carts, address: address, user: userData, discount,wish});
             } else {
                 const discount = undefined
-                res.render('checkout', { cart: carts, address: address, user: userData, discount });
+                res.render('checkout', { cart: carts, address: address, user: userData, discount,wish});
             }
         }else{
             res.redirect('/')
@@ -132,29 +136,29 @@ exports.loadCheckout = async (req, res,next) => {
         }));
     
         let total = productList.reduce((acc, item) => acc + item.price * item.count, 0);
+        const discount = cartData.discount
+        const coupon = cartData.appliedcoupon
         const carttotal= cartData.total
         var payamount= carttotal
-        const coupons = req.session.appliedcoupon
 
-        if (coupons && carttotal !== total) {
-            const coupon = await Coupon.findOne({ name: coupons });
-            var discount=0
-            const maxAmount = coupon.maxdiscount
-            discount = total * (coupon.discount / 100);
-            req.session.discount= discount
-            const newTotal = total - discount;
-            if (newTotal >= maxAmount) {
-                req.session.discount = maxAmount
-                 payamount = total - maxAmount
-            } else {
-                payamount = newTotal
-            }
+        // if (coupons && carttotal !== total) {
+        //     const coupon = await Coupon.findOne({ name: coupons });
+        //     var discount=0
+        //     const maxAmount = coupon.maxdiscount
+        //     discount = total * (coupon.discount / 100);
+        //     req.session.discount= discount
+        //     const newTotal = total - discount;
+        //     if (newTotal >= maxAmount) {
+        //         req.session.discount = maxAmount
+        //          payamount = total - maxAmount
+        //     } else {
+        //         payamount = newTotal
+        //     }
 
-        }
+        // }
 
         if (paymentMethod === 'COD') {
             const date = new Date();
-            const discount = req.session.discount
     
             const newOrder = new Order({
                 user: user,
@@ -164,7 +168,7 @@ exports.loadCheckout = async (req, res,next) => {
                 paymentMode: paymentMethod,
                 address: addressObject,
                 total: payamount,
-                coupon:coupons,
+                coupon:coupon,
                 discount:discount,
             });
     
@@ -179,17 +183,15 @@ exports.loadCheckout = async (req, res,next) => {
     
             await Cart.updateOne(
                 { user: user },
-                { $set: { product: [], total: 0, appliedcoupon: "" } }
+                { $set: { product: [], total: 0, appliedcoupon: "",subtotal:0,discount:0 } }
             );
 
-            const couponCode=cartData.appliedcoupon
-            await Coupon.updateOne({ name: couponCode },{ $push: { users: user } } );
+            await Coupon.updateOne({ name: coupon },{ $push: { users: user } } );
             
             return res.json({ status: paymentMethod });
     
         } else if (paymentMethod === 'Razorpay') {
             if(wallet){
-                console.log("with v",payamount)
                 // console.log('Payment method razorpay');
                 const newTotal = payamount - walletBalance
                 const options = {
@@ -220,7 +222,6 @@ exports.loadCheckout = async (req, res,next) => {
                 res.json({ status: 'Razorpay', order: order })
             }
         }else if (paymentMethod === 'wallet'){
-            let discount = req.session.discount
             const userData = await Users.findOne({_id:user})
             const walletBalance= userData.wallet
             const newBalance= Math.abs(walletBalance-payamount)
@@ -235,7 +236,7 @@ exports.loadCheckout = async (req, res,next) => {
                 paymentMode: paymentMethod,
                 address: addressObject,
                 total: payamount,
-                coupon: coupons,
+                coupon: coupon,
                 discount: discount,
             });
 
@@ -250,7 +251,7 @@ exports.loadCheckout = async (req, res,next) => {
 
             await Cart.updateOne(
                 { user: user },
-                { $set: { product: [], total: 0, appliedcoupon: "" } }
+                { $set: { product: [], total: 0, appliedcoupon: "", subtotal: 0, discount: 0 } }
             );
 
             const couponCode = req.session.appliedcoupon
@@ -285,7 +286,6 @@ exports.loadCheckout = async (req, res,next) => {
         const user = req.session.user_id;
         const addId= req.session.addId;
         const wallet = req.session.wallet
-        // console.log(req.session)
         const details = req.body;
         const keys = Object.keys(details)
  
@@ -298,9 +298,10 @@ exports.loadCheckout = async (req, res,next) => {
             const status = 'Confirmed';
              
             // Fetching user's cart data
-            const coupon= req.session.appliedcoupon
-            const discount= req.session.discount
+            
             const cartData = await Cart.findOne({ user: user }).populate("product.productId");
+            const coupon = cartData.appliedcoupon
+            const discount = cartData.discount
             const productList = cartData.product.map(
                 ({ productId, count }) => ({
                     productId,
@@ -355,12 +356,10 @@ exports.loadCheckout = async (req, res,next) => {
                 // Deleting Cart from user collection
                 await Cart.updateOne(
                     { user: user },
-                    { $set: { product: [], total: 0, appliedcoupon: "" } }
+                    { $set: { product: [], total: 0, appliedcoupon: "", subtotal: 0, discount: 0 } }
                 );
 
-
-                const couponCode = req.session.appliedcoupon
-                await Coupon.updateOne({ name: couponCode }, { $push: { users: user } });
+                await Coupon.updateOne({ name: coupon }, { $push: { users: user } });
 
                 await Users.findOneAndUpdate(
                     { _id: user },
@@ -408,12 +407,10 @@ exports.loadCheckout = async (req, res,next) => {
                 // Deleting Cart from user collection
                 await Cart.updateOne(
                     { user: user },
-                    { $set: { product: [], total: 0, appliedcoupon: "" } }
+                    { $set: { product: [], total: 0, appliedcoupon: "", subtotal: 0, discount: 0 } }
                 );
 
-
-                const couponCode = req.session.appliedcoupon
-                await Coupon.updateOne({ name: couponCode }, { $push: { users: user } });
+                await Coupon.updateOne({ name: coupon }, { $push: { users: user } });
 
                 res.json({ status: true });
             }
@@ -428,31 +425,59 @@ exports.loadCheckout = async (req, res,next) => {
 
 // cancel order by user
 exports.cancelOrder = async (req, res,next) => {
-    try {
-        const user = req.session.user_id;
-        const id = req.query.id;
-        await Order.updateOne({ _id: id }, { $set: { orderStatus: 'Cancelled' } });
-        const order = await Order.findOne({_id:id})
+        try {
+            const user = req.session.user_id;
+            const id = req.query.id;
 
-        for (const product of order.products) {
+            // Check if the order is already cancelled
+            const order = await Order.findOne({ _id: id });
+
+            // Update order status to 'Cancelled'
+            await Order.updateOne({ _id: id }, { $set: { orderStatus: 'Cancelled' } });
+
+            // Fetch user data and wallet balance
+            const userData = await Users.findOne({ _id: user });
+            const walletBalance = userData.wallet;
+
+            // Update product statuses within the order
+            for (const product of order.products) {
                 product.orderStatus = 'Cancelled';
             }
 
-        // // Save the updated order with the cancelled product statuses
-        await order.save();
-        const payType= order.paymentMode
-        if(payType == 'Razorpay' || payType== 'wallet'){
-            const incrementValue = order.total;
-            await Users.updateOne(
-              { _id: user },
-              { $inc: { wallet: incrementValue } }
-            );
+            // Save the updated order with the cancelled product statuses
+            await order.save();
+
+            const payType = order.paymentMode;
+
+            if (payType == 'Razorpay' || payType == 'wallet') {
+                const incrementValue = order.total;
+
+                // Update wallet balance and add a wallet history entry
+                const updateOperations = [
+                    Users.updateOne(
+                        { _id: user },
+                        {
+                            $push: {
+                                walletHistory: {
+                                    date: Date.now(),
+                                    amount: incrementValue,
+                                    type: "Credit",
+                                    balance: walletBalance,
+                                    details: "Product cancellation",
+                                },
+                            },
+                        }
+                    ),
+                    Users.updateOne(
+                        { _id: user },
+                        { $inc: { wallet: incrementValue } }
+                    ),
+                ];
+                await Promise.all(updateOperations);
+            }
             res.redirect(`/viewDetails?id=${id}`);
-        }else{
-            res.redirect(`/viewDetails?id=${id}`);
-        }
     } catch (error) {
-        next(error);
+        next(error.message);
     }
 };
 
@@ -467,7 +492,6 @@ exports.cancelProduct = async (req, res, next) => {
         const order = await Order.findOne({ _id: id })
         const product= await Products.findOne({_id:pid})
         const discount = order.discount
-        console.log(order.products.length)
         const total=order.total
   
         const productprice=product.price

@@ -23,30 +23,30 @@ exports.adminLoginPage = async (req,res,next)=>{
 }
 
 //admin login auhtentication
-exports.adminLogin = async (req,res)=>{
-    try{
-        
-        const {email,password} = req.body
-        const admin = await Admin.findOne({email});
-        const verify=admin.isadmin
-        if(!admin){
-            const message = 'invalid admin email or password';
-            res.redirect('/adminlogin?status=success&message='+ encodeURIComponent(message));
-        }
-        const isPasswordValid = await bcrypt.compare(password,admin.password)
-        if(isPasswordValid && verify=== true){
-            req.session.admin_id = admin._id;
-            res.redirect('/admin/adminpanel');
-        }
-        else{
-            const message = 'invalid admin email and password';
-            res.redirect('/admin?status=success&message='+ encodeURIComponent(message));
-        }
+exports.adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await Admin.findOne({ email });
+
+    if (!admin) {
+      const message = 'Invalid admin email or password';
+      return res.redirect('/adminlogin?status=error&message=' + encodeURIComponent(message));
     }
-    catch(error){
-        console.log(error.message);
+
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+    if (isPasswordValid && admin.isadmin === true) {
+      req.session.admin_id = admin._id;
+      return res.redirect('/admin/adminpanel');
+    } else {
+      const message = 'Invalid admin email and password';
+      return res.redirect('/adminlogin?status=error&message=' + encodeURIComponent(message));
     }
+  } catch (error) {
+    console.error(error.message);
+  }
 }
+
 
 exports.adminPanel = async (req, res, next) => {
   try {

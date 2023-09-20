@@ -19,7 +19,7 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-    
+
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
@@ -39,98 +39,111 @@
                                     </thead>
                                     <tbody>
                                         <%let sum=0%>
-                                        <% for(i in cart.product){%>
-                                            <tr>
-                                                <td class="product__cart__item">
-                                                    <div class="product__cart__item__pic">
-                                                        <img style="width: 90px; height:90px"
-                                                            src="img/<%=cart.product[i].productId.img[0]%>" alt="">
-                                                    </div>
-                                                    <div class="product__cart__item__text">
-                                                        <h6>
-                                                            <%=cart.product[i].productId.name%>
-                                                        </h6>
-                                                        <h5>₹ <%=cart.product[i].productId.price%>
-                                                        </h5>
-                                                    </div>
-                                                </td>
-                                                <td class="quantity__item">
-                                                    <div class="quantity">
-                                                        <span class="ms-2 me-2" name="quantity"
-                                                            id="<%= cart.product[i]._id %>"
-                                                            data-max-quantity="<%= cart.product[i].productId.quantity %>">
-                                                            <%= cart.product[i].count%>
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td class="cart__price" id="<%= cart.product[i]._id %>y">₹<%=
-                                                        cart.product[i].subtotal %>
-                                                </td>
-                                                <td class="cart__close">
-                                                </td>
-                                            </tr>
-                                        <%}%>
+                                            <% for(i in cart.product){%>
+                                                <tr>
+                                                    <td class="product__cart__item">
+                                                        <div class="product__cart__item__pic">
+                                                            <img style="width: 90px; height:90px"
+                                                                src="img/<%=cart.product[i].productId.img[0]%>" alt="">
+                                                        </div>
+                                                        <div class="product__cart__item__text">
+                                                            <h6>
+                                                                <%=cart.product[i].productId.name%>
+                                                            </h6>
+                                                            <h5>₹ <%=cart.product[i].productId.price%>
+                                                            </h5>
+                                                        </div>
+                                                    </td>
+                                                    <td class="quantity__item">
+                                                        <div class="quantity">
+                                                            <span class="ms-2 me-2" name="quantity"
+                                                                id="<%= cart.product[i]._id %>"
+                                                                data-max-quantity="<%= cart.product[i].productId.quantity %>">
+                                                                <%= cart.product[i].count%>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__price" id="<%= cart.product[i]._id %>y">₹<%=
+                                                            cart.product[i].subtotal %>
+                                                    </td>
+                                                    <td class="cart__close">
+                                                    </td>
+                                                </tr>
+                                                <%}%>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="mt-2">
                                 <a href="/getforms" id="addAddressLink">
-                                    <button type="button" class="btn btn-secondary" style="margin-bottom: 1rem;">Add address</button>
+                                    <button type="button" class="btn btn-secondary" style="margin-bottom: 1rem;">Add
+                                        address</button>
                                 </a>
                             </div>
                             <div class="row">
-                                <%if(address){%>
-                                <% for(i in address.address){%>
-                                    <div class="col-lg-6 mb-3">
-                                        <div class="card">
-                                            <div class="card-body"
-                                                style="line-height:.5rem; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;">
-                                                <label class="card-label" for="address<%=i%>">
-                                                    <div class="card-content">
-                                                        <h5 class="card-title">
-                                                            <%=address.address[i].name%>
-                                                        </h5>
-                                                        <h5 class="card-title">Mobile:
-                                                            <%=address.address[i].mobile%>
-                                                        </h5>
-                                                        <h5 class="card-title">Address:
-                                                            <%=address.address[i].address%>
-                                                        </h5>
-                                                        <h5 class="card-title">Pincode:
-                                                            <%=address.address[i].pincode%>
-                                                        </h5>
-                                                        <h5 class="card-title">Locality:
-                                                            <%=address.address[i].locality%>
-                                                        </h5>
-                                                        <h5 class="card-title">District:
-                                                            <%=address.address[i].district%>
-                                                        </h5>
-                                                        <h5 class="card-title">State: <%=address.address[i].state%>
-                                                        </h5>
-                                                    </div>
-                                                </label>
-                                                <div class="row">
-                                                    <div class="m-2">
-                                                        <a href="/editadrs?adsid=<%=address.address[i].id%>">Edit</a>
-                                                    </div>
-                                                    <div class="m-2">
-                                                        <a href="/removeadrr?adsid=<%=address.address[i].id%>">Remove</a>
-                                                    </div>
-                                                    <div class="m-2">
-                                                        <input type="radio" id="address<%=i%>" name="addressId"
-                                                            value="<%=address.address[i]._id%>" class="address-radio">
-                                                    </div>
+                                <% if (address) { %>
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="heading<%= i %>">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapse<%= i %>" aria-expanded="true"
+                                                    aria-controls="collapse<%= i %>">
+                                                    Address
+                                                </button>
+                                            </h2>
+                                            <div id="collapse<%= i %>" class="accordion-collapse collapse show"
+                                                aria-labelledby="heading<%= i %>" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body overflow">
+                                                    <% for (i in address.address) { %>
+                                                        <div class="card mb-2">
+                                                            <div class="col m-2">
+                                                                <label>Choose address</label>
+                                                                <input type="radio" id="address<%= i %>"
+                                                                    name="addressId"
+                                                                    value="<%= address.address[i]._id %>"
+                                                                    class="address-radio">
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <h5 class="">
+                                                                    <%= address.address[i].name %>
+                                                                </h5>
+                                                                <h5 class="">
+                                                                    <%= address.address[i].mobile %>
+                                                                </h5>
+                                                                <h5 class="">
+                                                                    <%= address.address[i].address %>, <%=
+                                                                            address.address[i].locality %>
+                                                                </h5>
+                                                                <h5 class="">
+                                                                    <%= address.address[i].district %>, <%=
+                                                                            address.address[i].pincode %>, <%=
+                                                                                address.address[i].state %>
+                                                                </h5>
+                                                                <h5 class=""></h5>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col m-2">
+                                                                    <a
+                                                                        href="/editadrs?adsid=<%= address.address[i].id %>">Edit</a>
+                                                                </div>
+                                                                <div class="col m-2">
+                                                                    <a
+                                                                        href="/removeadrr?adsid=<%= address.address[i].id %>">Remove</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                            <% } else { %>
+                                                                <p>Add shipping address</p>
+                                                                <% } %>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                <%}%>
-                                <%}else{%>
-                                    <p>Add shipping address</p>
-                                <%}%>
+
                             </div>
                         </div>
-                        <div class="col-lg-4 col-12"> 
+                        <div class="col-lg-4 col-12">
                             <div class="checkout__order">
                                 <h4 class="order__title">Your order</h4>
                                 <div class="checkout__order__products">Product <span>Total</span></div>
@@ -138,49 +151,54 @@
                                     <% for(i in cart.product){%>
                                         <li>
                                             <%=cart.product[i].productId.name%><span>₹ <%=cart.product[i].subtotal%>
-                                            </span>
+                                                </span>
                                         </li>
-                                    <% } %>
+                                        <% } %>
                                 </ul>
-                                <%if(typeof discount != 'undefined'){%>
+                                <%if(typeof discount !='undefined' ){%>
                                     <ul class="checkout__total__all">
                                         <li>Discount <span style="color: rgb(7, 192, 7);">- ₹ <%=discount%></span></li>
                                         <li>Total <span>₹ <%= cart.total %></span></li>
                                     </ul>
-                                <%}else{%>
+                                    <%}else{%>
                                         <ul class="checkout__total__all">
                                             <!-- <li>Subtotal <span>$750.99</span></li> -->
                                             <li>Total <span>₹ <%= cart.total %></span></li>
                                         </ul>
-                                <%}%>
-                                <div class="checkout__input__checkbox">
-                                    <% if (user.wallet> cart.total) { %>
-                                        <label for="walletRadio">
-                                            Use wallet balance : ₹ <%= user.wallet %>
-                                                <input type="radio" id="walletRadio" name="paymentMethod" value="wallet">
-                                                <span class="checkmark"></span>
-                                        </label>
-                                        <% } else if(user.wallet < cart.total) {%>
-                                            <label for="walletCheckbox">
-                                                    Use wallet balance : ₹ <%= user.wallet %>
-                                                        <input type="checkbox" id="walletCheckbox" name="wallet" value="wallet">
-                                                        <span class="checkmark"></span>
-                                            </label>
-                                            <% } %>
-                                                <label for="paymentRadio">
-                                                    COD Payment
-                                                    <input type="radio" id="paymentRadio" name="paymentMethod" value="COD">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label for="razorpayPaymentRadio">
-                                                    Razor Pay
-                                                    <input type="radio" id="razorpayPaymentRadio" name="paymentMethod" value="Razorpay" required>
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                </div>
-                                <button type="submit" id="placeOrderButton" class="site-btn" onclick="">PLACE ORDER</button>
+                                        <%}%>
+                                            <div class="checkout__input__checkbox">
+                                                <% if (user[0].wallet> cart.total) { %>
+                                                    <label for="walletRadio">
+                                                        Use wallet balance : ₹ <%= user[0].wallet %>
+                                                            <input type="radio" id="walletRadio" name="paymentMethod"
+                                                                value="wallet">
+                                                            <span class="checkmark"></span>
+                                                    </label>
+                                                    <% } else {%>
+                                                        <label for="walletCheckbox">
+                                                            Use wallet balance : ₹ <%= user[0].wallet %>
+                                                                <input type="checkbox" id="walletCheckbox" name="wallet"
+                                                                    value="wallet">
+                                                                <span class="checkmark"></span>
+                                                        </label>
+                                                        <% } %>
+                                                            <label for="paymentRadio">
+                                                                COD Payment
+                                                                <input type="radio" id="paymentRadio"
+                                                                    name="paymentMethod" value="COD">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                            <label for="razorpayPaymentRadio">
+                                                                Razor Pay
+                                                                <input type="radio" id="razorpayPaymentRadio"
+                                                                    name="paymentMethod" value="Razorpay" required>
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                            </div>
+                                            <button type="submit" id="placeOrderButton" class="site-btn"
+                                                onclick="">PLACE ORDER</button>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </form>
             </div>
@@ -188,170 +206,177 @@
         <form id="redirectForm" method="POST" action="/success">
             <input type="hidden" name="result" value="success">
         </form>
-    </section>    
+    </section>
     <!-- Checkout Section End -->
 
     <%- include('../layout/footer.ejs') -%>
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+        <!-- Js Plugins -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.nice-select.min.js"></script>
+        <script src="js/jquery.nicescroll.min.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/jquery.countdown.min.js"></script>
+        <script src="js/jquery.slicknav.js"></script>
+        <script src="js/mixitup.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/main.js"></script>
 
-    <!-- disable submit buttonif no payment option selected -->
-    <script>
-        const codCheckbox = document.getElementById("paymentRadio");
-        const walletbox = document.getElementById("walletRadio");
-const razorpayCheckbox = document.getElementById("razorpayPaymentRadio");
-const placeOrderButton = document.getElementById("placeOrderButton");
+        <!-- disable submit buttonif no payment option selected -->
+        <script>
+            const codCheckbox = document.getElementById("paymentRadio");
+            const walletbox = document.getElementById("walletRadio");
+            const razorpayCheckbox = document.getElementById("razorpayPaymentRadio");
+            const placeOrderButton = document.getElementById("placeOrderButton");
 
-    walletbox.addEventListener("change", function () {
-        placeOrderButton.disabled = !this.checked;
-    });
-codCheckbox.addEventListener("change", function () {
-    placeOrderButton.disabled = !this.checked;
-});
+            walletbox.addEventListener("change", function () {
+                placeOrderButton.disabled = !this.checked;
+            });
+            codCheckbox.addEventListener("change", function () {
+                placeOrderButton.disabled = !this.checked;
+            });
 
-razorpayCheckbox.addEventListener("change", function () {
-    placeOrderButton.disabled = !this.checked;
-});
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const radioButtons = document.querySelectorAll(".address-radio");
-            radioButtons[0].checked = true;
-        });
-    </script>
+            razorpayCheckbox.addEventListener("change", function () {
+                placeOrderButton.disabled = !this.checked;
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const radioButtons = document.querySelectorAll(".address-radio");
+                radioButtons[0].checked = true;
+            });
+        </script>
 
-    <!-- disable button default form submit behavior -->
-    <script>
-        const addAddressButton = document.getElementById("addAddressLink");
-        addAddressButton.addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            window.location.href = addAddressButton.getAttribute("href"); // Navigate to the specified href link
-        });
-    </script>
+        <!-- disable button default form submit behavior -->
+        <script>
+            const addAddressButton = document.getElementById("addAddressLink");
+            addAddressButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default form submission
+                window.location.href = addAddressButton.getAttribute("href"); // Navigate to the specified href link
+            });
+        </script>
 
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-        $('#checkout-form').submit((e) => {
-            e.preventDefault()
-            const selectedAddressId = $("input[name='addressId']:checked").val();
-            $.ajax({
-                url:'/placeOrder',
-                method: 'post',
-                data: $('#checkout-form').serialize() + `&addressId=${selectedAddressId}`,
-                success: (res) => {
-                    if(res.status == 'COD'){
-                        location.href = '/success'
-                    }else if(res.status == 'Razorpay'){
-                        razorpayPayment(res.order)
-                    }else if(res.status == 'wallet'){
-                        location.href = '/success'
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            $('#checkout-form').submit((e) => {
+                e.preventDefault()
+                const selectedAddressId = $("input[name='addressId']:checked").val();
+                $.ajax({
+                    url: '/placeOrder',
+                    method: 'post',
+                    data: $('#checkout-form').serialize() + `&addressId=${selectedAddressId}`,
+                    success: (res) => {
+                        if (res.status == 'COD') {
+                            location.href = '/success'
+                        } else if (res.status == 'Razorpay') {
+                            razorpayPayment(res.order)
+                        } else if (res.status == 'wallet') {
+                            location.href = '/success'
+                        }
                     }
+                });
+            });
+
+            function razorpayPayment(order) {
+                var options = {
+                    "key": "rzp_test_qnxvdHZX8CBOiS", // Enter the Key ID generated from the Dashboard
+                    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Baagy",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
+                    "handler": function (response) {
+                        verifyPayment(response, order)
+                    },
+                    "prefill": {
+                        "name": "Neehar prem",
+                        "email": "baagystore@gmail.com",
+                        "contact": "7907556276"
+                    },
+                    "notes": {
+                        "address": "Baagy Pvt Ltd"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzpl = new Razorpay(options)
+                rzpl.open()
+            }
+
+            function verifyPayment(response, order) {
+                $.ajax({
+                    url: '/verifyPayment',
+                    method: 'post',
+                    data: {
+                        response,
+                        order,
+                    },
+                    success: (res) => {
+                        console.log(res);
+                        if (res.status == true) {
+                            location.href = '/success?result=success';
+                        } else {
+                            location.href = '/failed?result=failed';
+                        }
+                    }
+                });
+            }
+        </script>
+
+
+        <!-- pass discount to api -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const applyButton = document.getElementById("applyButton");
+                const couponCodeInput = document.getElementById("couponCodeInput");
+                const couponForm = document.getElementById("couponForm");
+
+                applyButton.addEventListener("click", function () {
+                    // Get the value from the input field
+                    const couponCode = couponCodeInput.value;
+
+                    // Set the value in the URL and submit the form
+                    couponForm.action = "/applycpn?couponCode=" + encodeURIComponent(couponCode);
+                    couponForm.submit();
+                });
+            });
+
+        </script>
+
+        <script>
+            const walletCheckbox = document.getElementById("walletCheckbox");
+            const paymentCheckbox = document.getElementById("paymentRadio");
+            const razorCheckbox = document.getElementById("razorpayPaymentRadio");
+
+            walletCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    // Wallet checkbox is checked, so uncheck the payment checkbox
+                    paymentCheckbox.checked = false;
                 }
             });
-        });
-    
-        function razorpayPayment(order){
-            var options = {
-                "key": "rzp_test_qnxvdHZX8CBOiS", // Enter the Key ID generated from the Dashboard
-                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Baagy",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
-                "handler": function (response){
-                    verifyPayment(response,order)
-                },
-                "prefill": {
-                    "name": "Neehar prem",
-                    "email": "baagystore@gmail.com",
-                    "contact": "7907556276"
-                },
-                "notes": {
-                    "address": "Baagy Pvt Ltd"
-                },
-                "theme": {
-                    "color": "#3399cc"
+
+            paymentCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    // Payment checkbox is checked, so uncheck the wallet checkbox and the razorpayPayment checkbox
+                    walletCheckbox.checked = false;
+                    razorCheckbox.checked = false;
                 }
-            };
-            var rzpl = new Razorpay(options)
-            rzpl.open()
-        }
-    
-    function verifyPayment(response,order){
-    $.ajax({
-        url: '/verifyPayment',
-        method: 'post',
-        data: {
-            response,
-            order,
-        },
-        success: (res) => {
-            console.log(res);
-            if (res.status == true) {
-                location.href = '/success?result=success';
-            } else {
-                location.href = '/failed?result=failed';
-            }
-        }
-    });
-}
-    </script>
-  
+            });
 
-  <!-- pass discount to api -->
-  <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    const applyButton = document.getElementById("applyButton");
-    const couponCodeInput = document.getElementById("couponCodeInput");
-    const couponForm = document.getElementById("couponForm");
+            razorCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    // Razor Pay checkbox is checked, so uncheck the payment checkbox
+                    paymentCheckbox.checked = false;
+                }
+            });
+        </script>
 
-    applyButton.addEventListener("click", function () {
-        // Get the value from the input field
-        const couponCode = couponCodeInput.value;
-
-        // Set the value in the URL and submit the form
-        couponForm.action = "/applycpn?couponCode=" + encodeURIComponent(couponCode);
-        couponForm.submit();
-    });
-});
-
-</script>
-
-<script>
-    const walletCheckbox = document.getElementById("walletCheckbox");
-    const paymentCheckbox = document.getElementById("paymentRadio");
-    const razorCheckbox = document.getElementById("razorpayPaymentRadio");
-
-    walletCheckbox.addEventListener("change", function () {
-        if (this.checked) {
-            // Wallet checkbox is checked, so uncheck the payment checkbox
-            paymentCheckbox.checked = false;
-        }
-    });
-
-    paymentCheckbox.addEventListener("change", function () {
-        if (this.checked) {
-            // Payment checkbox is checked, so uncheck the wallet checkbox and the razorpayPayment checkbox
-            walletCheckbox.checked = false;
-            razorCheckbox.checked = false;
-        }
-    });
-
-    razorCheckbox.addEventListener("change", function () {
-        if (this.checked) {
-            // Razor Pay checkbox is checked, so uncheck the payment checkbox
-            paymentCheckbox.checked = false;
-        }
-    });
-</script>
+        <script>
+            var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+            var collapseList = collapseElementList.map(function (collapseEl) {
+                return new bootstrap.Collapse(collapseEl)
+            })
+        </script>

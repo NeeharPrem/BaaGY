@@ -45,37 +45,37 @@
                             <div class="row ">
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        value="<%=prdData.name%>">
+                                    <input type="text" name="name" class="form-control" id="pname"
+                                        value="<%=prdData.name%>" onchange="validatename()">
                                         <span class="span-text" id="nameError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Brand</label>
-                                    <input class="form-control" id="brand" name="brand" value="<%=prdData.brand%>">
+                                    <input class="form-control" id="brand" name="brand" value="<%=prdData.brand%>" onchange="validatebrand()">
                                     <span class="span-text" id="brandError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control"
-                                        value="<%=prdData.quantity%>">
+                                        value="<%=prdData.quantity%>" onchange="validatequantity()" min="1">
                                         <span class="span-text" id="quantityError" style="color: #db1d1d"></span>
                                 </div>
                             </div>
                             <div class="row ">
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark">Actual price</label>
-                                    <input type="number" name="actual" class="form-control" id="actual" value="<%=prdData.actual%>" min="1">
+                                    <input type="number" name="actual" class="form-control" id="actual" value="<%=prdData.actual%>" min="1" onchange="validateactual()">
                                     <span class="span-text" id="actualError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Current Price</label>
-                                    <input type="number" name="price" id="price" class="form-control" value="<%=prdData.price%>" min="1">
+                                    <input type="number" name="price" id="price" class="form-control" value="<%=prdData.price%>" min="1" onchange="validateprice()">
                                     <span class="span-text" id="priceError" style="color: #db1d1d"></span>
                                 </div>
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Discount</label>
                                     <input type="number" name="discount" id="discount" class="form-control"
-                                        value="<%=prdData.discount%>" min="0">
+                                        value="<%=prdData.discount%>" min="0" onchange="validatediscount()">
                                         <span class="span-text" id="discountError" style="color: #db1d1d"></span>
                                 </div>
                             </div>
@@ -83,14 +83,14 @@
                                 <div class="form-group col">
                                     <label for="exampleInputname" class="mb-2 text-dark ">Material</label>
                                     <input type="text" name="material" id="material" class="form-control"
-                                        value="<%=prdData.material%>" required>
+                                        value="<%=prdData.material%>" required onchange="validatematerial()">
                                         <span class="span-text" id="materialError" style="color: #db1d1d"></span>
                                 </div>
                             </div>
                             <div class="form-group col">
                                 <label for="floatingTextarea mt-3" class="mb-1 text-dark ">Description</label>
                                 <textarea type="text" name="description" id="description" class="form-control mt-2 mb-2"
-                                    style="height: 150px;" id="floatingTextarea"><%=prdData.description%></textarea>
+                                    style="height: 150px;" id="floatingTextarea" onchange="validatedescription()"><%=prdData.description%></textarea>
                                     <span class="span-text" id="descriptionError" style="color: #db1d1d"></span>
                             </div>
                             <div class="row">
@@ -127,10 +127,10 @@
                                     </div>
                                     <%}%>
                             </div>
-                            <div class="d-flex justify-content-center mt-3">
-                                <div><span class="span-text" id="submit-error" style="color: #db1d1d"></span></div>
-                                <button type="submit" value="submit" id="submitButton"
-                                    class="btn btn-warning" onclick="return validateForm()">Edit</button>
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                <span class="span-text m-2" id="submit-error" style="color: #db1d1d"></span>
+                                <button type="submit" value="submit" id="submitButton" class="btn btn-warning"
+                                    onclick="return validateForm()">Edit</button>
                             </div>
                         </form>
                     </div>

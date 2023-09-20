@@ -22,6 +22,12 @@ const cartData = new mongoose.Schema({
     },
     appliedcoupon:{
         type:String
+    },
+    subtotal:{
+        type:Number
+    },
+    discount:{
+        type:Number
     }
 })
 module.exports=mongoose.model('cart',cartData)

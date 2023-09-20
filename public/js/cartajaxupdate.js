@@ -61,6 +61,7 @@ function ajaxConnection(amt, productId, spanID) {
                 console.log("no")
                 $('#cartTotal').html(`₹ ${res.data.Total}`);
                 $(`#${spanID}y`).html(`₹ ${res.data.price}`)
+                $(`#subtotal`).html(`₹ ${res.data.price}`)
                 document.getElementById(`${spanID}plus`).disabled = false
                 document.getElementById(`${spanID}minus`).disabled = false
             } else if (res.status == true && res.loadcart == true) {

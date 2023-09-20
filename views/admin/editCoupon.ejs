@@ -33,68 +33,74 @@
     </div>
         <!-- Sidebar End -->
         <!-- Content Start -->
-        <div class="content" style="margin-top: 2rem;">
-            <!-- contents starts -->
-            <h1>Edit Coupons</h1>
-            <%console.log(coupon)%>
-            <form action="/admin/updateCoupon?id=<%=coupon._id %>" method="post" class="form" onsubmit="return validateForm()">
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Coupon name</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="coupon name" name="name" required value="<%=coupon.name%>">
-                    </div>
+       
+            <div class="content" style="margin-top: 2rem;">
+                <div class="m-3 p-3" style="border: solid black 1px;">
+                    <h1>Edit Coupons</h1>
+                    <form action="/admin/updateCoupon?id=<%=coupon._id %>" method="post" class="form" onsubmit="return validateForm()">
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Coupon name</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" placeholder="coupon name" name="name" required value="<%=coupon.name%>">
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Discount</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
+                                    onkeyup="validateQuantity()" required value="<%=coupon.discount%>" />
+                                <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Expiry Date</label>
+                            </div>
+                            <div class="col">
+                                <input type="date" placeholder="Enter the expiry date" name="expiry" value="<%= coupon.expiry_date %>"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Minimum Amount</label>
+                            </div>
+                            <div class="col">
+                                <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required
+                                    value="<%=coupon.min_amt%>" />
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Maximum discount</label>
+                            </div>
+                            <div class="col">
+                                <input type="number" placeholder="Enter the minimum purchase required" name="maxlimit" required
+                                    value="<%=coupon.maxdiscount%>" />
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center align-items-center m-auto">
+                            <div class="col">
+                                <label>Description</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" placeholder="Description" name="description" value="<%=coupon.description%>">
+                            </div>
+                        </div>
+                        <div class="justify-content-center align-items-center m-auto">
+                            <button type="submit">Edit</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Discount</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
-                            onkeyup="validateQuantity()" required  value="<%=coupon.discount%>"/>
-                        <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Expiry Date</label>
-                    </div>
-                    <div class="col">
-                        <input type="date" placeholder="Enter the expiry date" name="expiry"
-                                        value="<%= coupon.expiry_date %>" required />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Minimum Amount</label>
-                    </div>
-                    <div class="col">
-                        <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required value="<%=coupon.min_amt%>" />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Maximum discount</label>
-                    </div>
-                    <div class="col">
-                        <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required
-                            value="<%=coupon.maxdiscount%>" />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Description</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="Description" name="description" value="<%=coupon.description%>">
-                    </div>
-                </div>
-                <div class="justify-content-center align-items-center m-auto">
-                    <button type="submit">Edit</button>
-                </div>
-            </form>
         </div>
+
+
+
+
         <script>
         function getCurrentDate() {
         const now = new Date();
@@ -112,27 +118,5 @@
         return `${year}-${month}-${day}`;
     }
     
-    document.addEventListener("DOMContentLoaded", function() {
-        const expiryDateInput = document.getElementById("expiryDate");
-        expiryDateInput.setAttribute("min", getCurrentDate());
-    });
-      
-        function validateQuantity() {
-          const quantity = document.getElementById("quantity").value;
-          const quantityError = document.getElementById("quantityError");
-      
-          if (!quantity.match(/^\d+(\.\d{1,2})?$/)) {
-            quantityError.textContent = "Enter a valid discount percentage";
-            return false;
-          } else {
-            quantityError.textContent = "";
-            return true;
-          }
-        }
-      
-        function validateForm() {
-          const isValidQuantity = validateQuantity();
-          return isValidQuantity;
-        }
       </script>
     <%- include('../layout/adfooter.ejs') -%>

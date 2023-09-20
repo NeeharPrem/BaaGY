@@ -9,7 +9,7 @@ var descriptionError = document.getElementById("descriptionError");
 var submitError = document.getElementById("submit-error");
 
 function validatedescription() {
-    var name1 = document.getElementById("floatingTextarea").value.replace(/\s/g, "");
+    var name1 = document.getElementById("description").value.replace(/\s/g, "");
 
     if (name1.length === 0) {
         descriptionError.innerHTML = "Description required";
@@ -69,6 +69,11 @@ function validateprice() {
         return false;
     }
 
+    if (name1.length === 0) {
+        priceError.innerHTML = "Fill price";
+        return false;
+    }
+
     if (name1 == -1) {
         priceError.innerHTML = "This cant be negative";
         return false;
@@ -86,6 +91,11 @@ function validateactual() {
         return false;
     }
 
+    if (name1 == 0) {
+        actualError.innerHTML = "Fill actual price";
+        return false;
+    }
+
     if (name1 == -1) {
         actualError.innerHTML = "This cant be negative";
         return false;
@@ -96,7 +106,7 @@ function validateactual() {
 }
 
 function validatename() {
-    var name1 = document.getElementById("pname").value.replace(/\s/g, "");
+    var name1 = document.getElementById("pname").value.trim()
 
     if (name1.length === 0) {
         nameError.innerHTML = "Name is required";
@@ -132,21 +142,36 @@ function validatebrand() {
 }
 
 function validatequantity() {
-    var name1 = document.getElementById("quantity").value.replace(/\s/g, "");
+    var name1 = document.getElementById("quantity").value
 
-    if (name1.length < 0) {
-        quantityError.innerHTML = "quantity is required";
+    if (name1.length === 0) {
+        quantityError.innerHTML = "Quantity is required";
         return false;
     }
 
-    if (name1 == -1) {
-        quantityError.innerHTML = "Fill properly";
+    // Convert the input to a numeric value
+    var quantityValue = parseInt(name1);
+
+    if (isNaN(quantityValue)) {
+        quantityError.innerHTML = "Please enter a valid number";
+        return false;
+    }
+
+    // Check if the value is less than 0
+    if (quantityValue < 0) {
+        quantityError.innerHTML = "Quantity cannot be negative";
+        return false;
+    }
+
+    if (quantityValue === 0) {
+        quantityError.innerHTML = "Least add one product";
         return false;
     }
 
     quantityError.innerHTML = "";
     return true;
 }
+
 function validateForm() {
     if (
         !validatename() ||
