@@ -95,17 +95,20 @@ exports.applyCoupon = async (req, res,next) => {
         const couponCode = req.body.coupon;
         const user = req.session.user_id;
         const couponStatus = await Coupon.findOne({ name: couponCode });
+        const cartup = await Cart.findOne({ user: user }).populate('product.productId');
         if(couponStatus){
             const userArray= couponStatus.users
             if(userArray.includes(user)){
+                const payamount = cartup.total;
                 const message = 'Already used coupon';
-                return res.json({ status: false, data: { out: message } });
+                return res.json({ status: false, data: { out: message, Total: payamount } });
             // return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
             } 
         }
         if (!couponStatus) {
+            const payamount = cartup.total;
             const message = 'Invalid coupon code';
-            return res.json({ status: false, data: { out: message } });
+            return res.json({ status: false, data: { out: message, Total: payamount } });
             // return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
         }
         const cart = await Cart.findOne({ user: user });
@@ -118,16 +121,17 @@ exports.applyCoupon = async (req, res,next) => {
         const coupondate = couponStatus.expiry_date
         const cpday= coupondate.getDate()
         if (day > cpday) {
+            const payamount = cartup.total;
             const message = 'Expired coupon';
-            return res.json({ status: false, data: { out: message } });
+            return res.json({ status: false, data: { out: message, Total: payamount } });
             // return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
         }
         if (cart.total < couponStatus.min_amt) {
+            const payamount = cartup.total;
             const message = 'Purchase amount is low';
-            return res.json({ status: false, data: { out: message } });
+            return res.json({ status: false, data: { out: message, Total: payamount } });
             // return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
         }
-       const cartup = await Cart.findOne({ user: user }).populate('product.productId');
     //    const productTotal = cart.product.reduce((acc, curr) => acc + curr.subtotal, 0);
         const carttotal = cartup.total;
         const maxAmount = couponStatus.maxdiscount

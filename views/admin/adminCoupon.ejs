@@ -127,7 +127,8 @@
                                 </td>
                                 <td><%= coupons[i].isActive %></td>
                                 <td><% if(coupons[i].isActive){ %>
-                                    <a class="btn btn-danger" href="/admin/coupon/unlist?id=<%= coupons[i]._id %>" role="button">Unlist</a>
+                                    <!-- <a class="btn btn-danger" href="/admin/coupon/unlist?id=<%= coupons[i]._id %>" role="button">Unlist</a> -->
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Unlist</a>
                                <% }else{ %>
                                     <a class="btn btn-success" href="/admin/coupon/unlist?id=<%= coupons[i]._id %>" role="button">List</a>
             
@@ -141,6 +142,27 @@
                     </table>
                 </div>
             </section>
+            <!--  -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to unlist this coupon?
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/admin/coupon/unlist?id=<%= coupons[i]._id %>" class="btn btn-danger">Yes</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
             <%- include('../layout/adfooter.ejs') -%>
                 <script>
                     $(document).ready(function () {
