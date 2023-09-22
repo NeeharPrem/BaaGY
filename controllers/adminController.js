@@ -30,7 +30,7 @@ exports.adminLogin = async (req, res) => {
 
     if (!admin) {
       const message = 'Invalid admin email or password';
-      return res.redirect('/adminlogin?status=error&message=' + encodeURIComponent(message));
+      return res.redirect('/admin?status=error&message=' + encodeURIComponent(message));
     }
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
@@ -39,8 +39,8 @@ exports.adminLogin = async (req, res) => {
       req.session.admin_id = admin._id;
       return res.redirect('/admin/adminpanel');
     } else {
-      const message = 'Invalid admin email and password';
-      return res.redirect('/adminlogin?status=error&message=' + encodeURIComponent(message));
+      const message = 'Invalid admin email or password';
+      return res.redirect('/admin?status=error&message=' + encodeURIComponent(message));
     }
   } catch (error) {
     console.error(error.message);

@@ -36,52 +36,54 @@
         <!-- Sidebar End -->
         <!-- Content Start -->
         <div class="content" style="margin-top: 2rem;">
-            <!-- contents starts -->
-            <h1>Add Offers</h1>
-            <%if(status !=='undefined' ) {%>
-                <h5 class="text-center text-dark">
-                    <%= message %>
-                </h5>
-                <%}%>
-            <form class="ms-2" action="/admin/addOffer" method="post" class="form" onsubmit="return validateForm()">
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Offer name</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="coupon name" name="name" required>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Discount</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="Discount" name="discount" id="quantity"
-                            onkeyup="validateQuantity()" required />
-                        <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Starting Date</label>
-                    </div>
-                    <div class="col">
-                        <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="start" required />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Expiry Date</label>
-                    </div>
-                    <div class="col">
-                        <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiryDate"
-                            required />
-                    </div>
-                </div>
-                <div class="justify-content-center align-items-center m-auto">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+            <div class="m-3 p-3" style="border: solid black 1px;">
+                <h1>Add Offers</h1>
+                <%if(status !=='undefined' ) {%>
+                    <h5 class="text-center text-dark">
+                        <%= message %>
+                    </h5>
+                    <%}%>
+                        <form class="ms-2" action="/admin/addOffer" method="post" class="form" onsubmit="return validateForm()">
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Offer name</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="coupon name" name="name" required>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Discount</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="Discount" name="discount" id="quantity" onkeyup="validateQuantity()"
+                                        required />
+                                    <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Starting Date</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="start"
+                                        required />
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Expiry Date</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiryDate"
+                                        required />
+                                </div>
+                            </div>
+                            <div class="justify-content-center align-items-center m-auto">
+                                <button type="submit">Submit</button>
+                            </div>
+                        </form>
+            </div>
         </div>
         <%- include('../layout/adfooter.ejs') -%>

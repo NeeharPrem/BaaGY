@@ -9,26 +9,50 @@ const User=user
 
 
 // Load the shoping cart page
-exports.loadCart = async (req, res,next) => {
+exports.loadCart = async (req, res, next) => {
     try {
-        const wish = req.session.wishlist
+        const wish = req.session.wishlist;
         const status = req.query.status || '';
         const message = req.query.message || '';
         const user = req.session.user_id;
-        
-        const userData= await User.find({_id:user})
-        let cart = await Cart.findOne({ user: user }).populate('product.productId');
-        const availableCoupons = await Coupon.find({ users: { $ne: user } })
+
+        // Fetch user data, cart, and available coupons in parallel
+        const [userData, cart, availableCoupons] = await Promise.all([
+            User.findOne({ _id: user }),
+            Cart.findOne({ user: user })
+                .populate('product.productId')
+                .select('product total appliedcoupon discount subtotal'),
+            Coupon.find({ users: { $ne: user } })
+        ]);
+
+        // Calculate the product total
         const productTotal = cart.product.reduce((acc, curr) => acc + curr.subtotal, 0);
-        await Cart.findOneAndUpdate({ user: user }, { $set: { total: productTotal } }).populate('product.productId');
-        await Cart.findOneAndUpdate({ user: user }, { $set: { appliedcoupon: '' ,discount:0,subtotal:0} });
-        cart = await Cart.findOne({ user: user }).populate('product.productId');
-        // const cart2 = await Cart.fidOne({ user: user }).populate('product.productId');
-        res.render('shopingcart', { cart, coupons: availableCoupons, usedcpn: null, cart1: null, status, message, user: userData, wish });
+
+        // Update cart with the product total and reset coupon-related fields
+        await Cart.findOneAndUpdate({ user: user }, {
+            $set: { total: productTotal, appliedcoupon: '', discount: 0, subtotal: 0 }
+        });
+
+        // Fetch the updated cart
+        const updatedCart = await Cart.findOne({ user: user })
+            .populate('product.productId')
+            .select('product total appliedcoupon discount subtotal');
+
+        res.render('shopingcart', {
+            cart: updatedCart,
+            coupons: availableCoupons,
+            usedcpn: null,
+            cart1: null,
+            status,
+            message,
+            user: userData,
+            wish
+        });
     } catch (error) {
         next(error.message);
     }
 };
+
 
 exports.addtoCart = async (req, res,next) => {
     try {

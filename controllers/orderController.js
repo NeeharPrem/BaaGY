@@ -619,7 +619,10 @@ exports.updateStatus= async (req, res,next) => {
         const status=req.body.orderStatus
         const order = await Order.findOne({ _id: orderId });
         for (const product of order.products) {
+            if (product.orderStatus == 'Confirmed' || product.orderStatus == 'Shipped' ||
+                product.orderStatus == 'Out for Delivery' || product.orderStatus == 'Delivered'){
                 product.orderStatus = status;
+            }
         }
 
         // // Save the updated order with the cancelled product statuses

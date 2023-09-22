@@ -36,46 +36,46 @@
         <!-- Sidebar End -->
         <!-- Content Start -->
         <div class="content" style="margin-top: 2rem;">
-            <!-- contents starts -->
-            <%console.log(offer)%>
-            <h1>Edit Offer</h1>
-            <%if(status !=='undefined' ) {%>
-                <h5 class="text-center text-danger">
-                    <%= message %>
-                </h5>
-                <%}%>
-                    <form class="ms-2" action="/admin/editOffer/<%=offer._id  %>" method="post" class="form"
-                        onsubmit="return validateForm()">
-                        <div class="row d-flex justify-content-center align-items-center m-auto">
-                            <div class="col">
-                                <label>Offer name</label>
+            <div class="m-3 p-3" style="">
+                <h1>Edit Offer</h1>
+                <%if(status !=='undefined' ) {%>
+                    <h5 class="text-center text-danger">
+                        <%= message %>
+                    </h5>
+                    <%}%>
+                        <form class="ms-2" action="/admin/editOffer/<%=offer._id  %>" method="post" class="form"
+                            onsubmit="return validateForm()">
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Offer name</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" placeholder="coupon name" name="name" required value="<%=offer.name%>">
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" placeholder="coupon name" name="name" required value="<%=offer.name%>">
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Discount</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" value="<%=offer.discount%>" placeholder="Discount percentage" name="discount"
+                                        id="quantity" onkeyup="validateQuantity()" required />
+                                    <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-center align-items-center m-auto">
-                            <div class="col">
-                                <label>Discount</label>
+                            <div class="row d-flex justify-content-center align-items-center m-auto">
+                                <div class="col">
+                                    <label>Expiry Date</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" placeholder="Enter the expiry date" value="<%=offer.expiryDate%>"
+                                        min="getCurrentDate()" name="expiryDate" required />
+                                </div>
                             </div>
-                            <div class="col">
-                                <input type="text" value="<%=offer.discount%>" placeholder="Discount percentage" name="discount" id="quantity"
-                                    onkeyup="validateQuantity()" required />
-                                <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                            <div class="justify-content-center align-items-center m-auto">
+                                <button type="submit">Edit</button>
                             </div>
-                        </div>
-                        <div class="row d-flex justify-content-center align-items-center m-auto">
-                            <div class="col">
-                                <label>Expiry Date</label>
-                            </div>
-                            <div class="col">
-                                <input type="date" placeholder="Enter the expiry date" value="<%=offer.expiryDate%>" min="getCurrentDate()"
-                                    name="expiryDate" required />
-                            </div>
-                        </div>
-                        <div class="justify-content-center align-items-center m-auto">
-                            <button type="submit">Edit</button>
-                        </div>
-                    </form>
+                        </form>
+            </div>
         </div>
         <%- include('../layout/adfooter.ejs') -%>
