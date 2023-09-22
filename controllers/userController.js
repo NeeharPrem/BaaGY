@@ -680,9 +680,7 @@ exports.failed = async (req, res,next) => {
 exports.about = async (req, res, next) => {
   try {
     const id= req.session.user_id
-    if(id){
       const user = await User.find({_id:id})
-    }
     const wish = req.session.wishlist
     res.render("about",{wish,user});
   } catch (error) {
