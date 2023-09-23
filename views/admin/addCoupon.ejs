@@ -39,7 +39,7 @@
            <div class="m-3" style="border: solid #000000 1px; background-color: #f0ffff;">
             <div class="m-3">
                 <h1>Add Coupons</h1>
-                <form action="/admin/addCoupon" method="post" class="form" onsubmit="return validateForm()">
+                <form action="/admin/addCoupon" method="post" class="form" id="couponForm" onsubmit="return validateForm()">
                     <div class="row d-flex justify-content-center align-items-center m-auto">
                         <div class="col">
                             <label>Coupon name</label>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="justify-content-center align-items-center m-auto">
-                        <button type="submit">Submit</button>
+                        <button type="button" id="showConfirmationButton" class="btn-danger">Submit</button>
                     </div>
                 </form>
             </div>
@@ -132,4 +132,27 @@
           return isValidQuantity;
         }
       </script>
+
+      <script>
+        function showConfirmation() {
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Add',
+                cancelButtonText: 'cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                 if (result.isConfirmed) {
+                    // Explicitly submit the form
+                    document.getElementById('couponForm').submit();
+                }
+            });
+        }
+
+        // Add an event listener to the button to trigger the confirmation dialog
+        document.getElementById('showConfirmationButton').addEventListener('click', function () {
+                showConfirmation(); // Show the confirmation box
+            });
+    </script>
     <%- include('../layout/adfooter.ejs') -%>

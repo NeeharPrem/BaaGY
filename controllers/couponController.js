@@ -117,14 +117,11 @@ exports.applyCoupon = async (req, res,next) => {
             return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
         }
         const currentDate = new Date();
-        const day = currentDate.getDate();
         const coupondate = couponStatus.expiry_date
-        const cpday= coupondate.getDate()
-        if (day > cpday) {
+        if (currentDate > coupondate) {
             const payamount = cartup.total;
             const message = 'Expired coupon';
             return res.json({ status: false, data: { out: message, Total: payamount } });
-            // return res.redirect('/loadcart?status=error&message=' + encodeURIComponent(message));
         }
         if (cart.total < couponStatus.min_amt) {
             const payamount = cartup.total;

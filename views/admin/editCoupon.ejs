@@ -37,7 +37,7 @@
             <div class="content" style="margin-top: 2rem;">
                 <div class="m-3 p-3" style="border: solid black 1px;">
                     <h1>Edit Coupons</h1>
-                    <form action="/admin/updateCoupon?id=<%=coupon._id %>" method="post" class="form" onsubmit="return validateForm()">
+                    <form action="/admin/updateCoupon?id=<%=coupon._id %>" method="post" class="form" id="couponForm" onsubmit="return validateForm()">
                         <div class="row d-flex justify-content-center align-items-center m-auto">
                             <div class="col">
                                 <label>Coupon name</label>
@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div class="justify-content-center align-items-center m-auto">
-                            <button type="submit">Edit</button>
+                            <button type="button" id="showConfirmationButton" class="btn-success">Edit</button>
                         </div>
                     </form>
                 </div>
@@ -119,4 +119,27 @@
     }
     
       </script>
+
+      <script>
+        function showConfirmation() {
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Edit',
+                cancelButtonText: 'cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Explicitly submit the form
+                    document.getElementById('couponForm').submit();
+                }
+            });
+        }
+
+        // Add an event listener to the button to trigger the confirmation dialog
+        document.getElementById('showConfirmationButton').addEventListener('click', function () {
+            showConfirmation(); // Show the confirmation box
+        });
+    </script>
     <%- include('../layout/adfooter.ejs') -%>
