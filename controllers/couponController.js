@@ -6,8 +6,10 @@ const Cart = cart
 
 
 exports.viewCoupons = async (req, res,next) => {
+    const status = req.query.status || "";
+    const message = req.query.message || "";
     const coupons=await Coupon.find({})
-    res.render('adminCoupon',{coupons:coupons})
+    res.render('adminCoupon',{coupons:coupons,status,message})
 }
 
 exports.addCouponspg = async (req, res)=>{
@@ -32,7 +34,8 @@ exports.addCoupons = async (req, res,next) => {
         })
         const couponData = await coupon.save()
         if (couponData) {
-            res.redirect('/admin/coupons')
+            const message="New coupon added"
+            res.redirect('/admin/coupons?status=error&message=' + encodeURIComponent(message))
         }
     } catch (error) {
         next(error);
@@ -65,7 +68,8 @@ exports.EditCoupons = async (req, res,next) => {
                     min_amt: minAmt,
             }})
         }
-        res.redirect('/admin/coupons')
+        const message = "Coupon edited"
+        res.redirect('/admin/coupons?status=error&message=' + encodeURIComponent(message))
     } catch (error) {
         next(error);
     }
