@@ -36,64 +36,66 @@
         <!-- Sidebar End -->
         <!-- Content Start -->
         <div class="content" style="margin-top: 2rem;">
-            <!-- contents starts -->
-            <h1>Add Coupons</h1>
-            <form action="/admin/addCoupon" method="post" class="form" onsubmit="return validateForm()">
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Coupon name</label>
+           <div class="m-3" style="border: solid #000000 1px; background-color: #f0ffff;">
+            <div class="m-3">
+                <h1>Add Coupons</h1>
+                <form action="/admin/addCoupon" method="post" class="form" id="couponForm" onsubmit="return validateForm()">
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Coupon name</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="coupon name" name="name" required>
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" placeholder="coupon name" name="name" required>
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Discount</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
+                                onkeyup="validateQuantity()" required />
+                            <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Discount</label>
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Expiry Date</label>
+                        </div>
+                        <div class="col">
+                            <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiry" required />
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" placeholder="Discount percentage" name="discount" id="quantity"
-                            onkeyup="validateQuantity()" required />
-                        <span id="quantityError" style="color: rgb(255, 0, 0);"></span>
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Minimum Amount</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required />
+                        </div>
                     </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Expiry Date</label>
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Maximum discount</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" placeholder="Enter the minimum purchase required" name="maxlimit" required />
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="date" placeholder="Enter the expiry date" min="getCurrentDate()" name="expiry"
-                            required />
+                    <div class="row d-flex justify-content-center align-items-center m-auto">
+                        <div class="col">
+                            <label>Description</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="Description" name="description">
+                        </div>
                     </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Minimum Amount</label>
+                    <div class="justify-content-center align-items-center m-auto">
+                        <button type="button" id="showConfirmationButton" class="btn-danger">Submit</button>
                     </div>
-                    <div class="col">
-                        <input type="number" placeholder="Enter the minimum purchase required" name="minAmt" required />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Maximum discount</label>
-                    </div>
-                    <div class="col">
-                        <input type="number" placeholder="Enter the minimum purchase required" name="maxlimit" required />
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center align-items-center m-auto">
-                    <div class="col">
-                        <label>Description</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" placeholder="Description" name="description">
-                    </div>
-                </div>
-                <div class="justify-content-center align-items-center m-auto">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+                </form>
+            </div>
+           </div>
         </div>
         <script>
         function getCurrentDate() {
@@ -130,4 +132,27 @@
           return isValidQuantity;
         }
       </script>
+
+      <script>
+        function showConfirmation() {
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Add',
+                cancelButtonText: 'cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                 if (result.isConfirmed) {
+                    // Explicitly submit the form
+                    document.getElementById('couponForm').submit();
+                }
+            });
+        }
+
+        // Add an event listener to the button to trigger the confirmation dialog
+        document.getElementById('showConfirmationButton').addEventListener('click', function () {
+                showConfirmation(); // Show the confirmation box
+            });
+    </script>
     <%- include('../layout/adfooter.ejs') -%>

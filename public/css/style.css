@@ -487,8 +487,18 @@ ol {
 	color: #0d0d0d;
 	font-size: 11px;
 	position: absolute;
-	left: 5px;
-	top: 8px;
+	left: 13px;
+	top: 2px;
+	background: #f7d203;
+	font-size: 11px;
+    border-radius: 50%;
+	font-size: 11px;
+    border-radius: 50%;
+	width: 16px;
+    height: 16px;
+	z-index: 2;
+	text-align: center;
+	color: #000000;
 }
 
 .header__nav__option a:last-child {
@@ -4223,3 +4233,4 @@ ol {
 
 /* contact form */
 
+ /* Text alignment for body */

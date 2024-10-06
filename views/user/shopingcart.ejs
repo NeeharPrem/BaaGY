@@ -106,19 +106,16 @@
                         <h6>
                             Discount codes
                         </h6>
-                        <% if(status !== 'undefined') { %>
-                            <h5 class="text-center text-dark" style="font-size: 15px;">
-                                <%= message %>
-                            </h5>
-                        <% } %>
-                                <% if (usedcpn) { %>
-                    <a href="/removecpn" style="text-align: center;"><button type="button" id="yourButtonId">Remove coupon</button></a>
-                         <%}else{%>
-                        <form id="form2" action="applycpn" method="post">
-                            <input type="text" name="coupon" placeholder="Coupon code">
-                            <button type="submit" id="submitForm2">Apply</button>
-                        </form>
-                        <%}%>
+                                <li id="failedLi" style="display: none;"><span id="failed"></span></li>
+
+                                <a href="/removecpn" id="removeCouponButton" style="text-align: center;display: none;">
+                                    <button type="button" >Remove coupon</button>
+                                </a>
+
+                                    <form id="form2" action="" method="post" style="display: block;">
+                                        <input type="text" name="coupon" placeholder="Coupon code">
+                                        <button type="submit" id="applyCouponButton">Apply</button>
+                                    </form>        
                     </div>                    
                     <div class="d-flex" style="overflow: auto; height: 10rem;">
                         <div class="card" style="width: 18rem; border: none;">
@@ -146,19 +143,16 @@
                         <h6>Cart total</h6>
                         <ul>
                             <% if (!usedcpn && !cart1) { %>
+                                <li id="couponAppliedLi" style="display: none;">Coupon applied: <span id="coupon"></span></li>
+                                <li id="subLi" style="display: none;">Subtotal: <span id="subtotal"></span></li>
+                                <li id="discountLi" style="display: none;">Discount: <span id="discount" style="color: green;"></span></li>
                                 <li>Total: <span id="cartTotal">₹ <%= cart.total %></span></li>
-                            <% } else { %>
-                                <% if (usedcpn && cart1) { %>
-                                    <li>Discount: <span id="cartNewTotal"><%= usedcpn.discount %>%</span></li>
-                                    <li>Total: <span id="cartTotal">₹ <%= cart1.total %></span></li>
-                                <% } %>
-                                <% if (usedcpn && !cart1) { %>
-                                    <li>Discount: <span id="cartNewTotal"><%= usedcpn.discount %>%</span></li>
-                                    <li>Total: <span id="cartTotal">₹ <%= cart.total %></span></li>
-                                <% } %>
-                            <% } %>                            
+                            <% }  %>                           
                         </ul>
-                        <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                        <form id="form2" action="/checkout" method="get">
+                            <button type="submit" class="primary-btn" id="submitForm2" style="border: none; width: 17rem;">Proceed to checkout</button>
+                        </form>
+                        <!-- <a href="/checkout" class="primary-btn" >Proceed to checkout</a> -->
                     </div>
                 </div>
             </div>
@@ -219,4 +213,104 @@
             document.execCommand("copy");
             document.body.removeChild(textarea);
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+                const form = document.getElementById("form2");
+                const removeCouponButton = document.getElementById("removeCouponButton");
+                const failed = document.getElementById("failedLi");
+
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const couponCode = document.querySelector('input[name="coupon"]').value;
+                    console.log(couponCode)
+
+                    fetch("applycpn", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ coupon: couponCode }),
+                    })
+                        .then((response) => response.json())
+                        .then(data => {
+                            console.log(data.status)
+                            const jsonArray = Object.values(data);
+                            if(jsonArray[1].coupon){
+                                 couponAppliedLi.style.display = "block";
+                                discountLi.style.display = "block";
+                                subLi.style.display = "block";
+
+                            }
+
+                            
+                            const discount= document.getElementById("discount");
+                            const subtotal = document.getElementById("subtotal");
+                            const coupon = document.getElementById("coupon");
+                            const cartTotal = document.getElementById("cartTotal"); 
+                                cartTotal.innerHTML = `₹ ${jsonArray[1].Total}`;
+                                discount.innerHTML = `- ₹ ${jsonArray[1].discount}`;
+                                coupon.innerHTML = `${jsonArray[1].coupon}`; 
+                                subtotal.innerHTML = `₹ ${jsonArray[1].sub}`;
+
+                                if (data.status === true) {
+                                removeCouponButton.style.display = "block";
+                                form.style.display = "none"; // Hide the form
+                                failed.style.display = "none";
+                                
+                            }
+
+                            if (data.status === false) {
+                                 failed.innerHTML = `${jsonArray[1].out}`;
+                                failed.style.display = "block";
+                                // form.style.display = "none";
+                            }
+
+                        })
+                        .catch((error) => {
+                            console.error("Error:", error);
+                        });
+                });
+
+            removeCouponButton.addEventListener("click", function (e) {
+                e.preventDefault(); 
+
+
+                fetch(`removecpn`, { 
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data.remove,"",data.status);
+                        const jsonArray = Object.values(data);
+                        console.log(jsonArray);
+
+                        if (jsonArray[2].out) {
+                            couponAppliedLi.style.display = "none";
+                            discountLi.style.display = "none";
+                            subLi.style.display = "none";
+
+                        }
+
+                        if (data.status === true && data.remove === true) {
+                            console.log("hell");
+                            const cartTotal = document.getElementById("cartTotal");
+                            cartTotal.innerHTML = `₹ ${jsonArray[2].Total}`;
+                            removeCouponButton.style.display = "none";
+                            form.style.display = "block"; // Hide the form
+                            failed.innerHTML = `${jsonArray[2].out}`;
+                            failed.style.display = "block";
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            });
+
+            });
+
     </script>

@@ -127,15 +127,15 @@
                                             <td><%= index + 1 %></td>
                                             <td><%= formattedDate %></td>
                                             <td><%= orderItem.user.name %></td>
-                                            <%console.log(orderItem)%>
                                             <% const productItem = orderItem.products[0]; %>
+                                            
                                             <td>
                                                 <div class="image-container">
-                                                    <img src="/img/<%= productItem.productId.img[0] %>"
+                                                    <img src="/img/<%= orderItem.products[0].productId.img[0] %>"
                                                         alt="<%= productItem.productId.name %>" class="stacked-image">
                                                 </div>
                                             </td>
-                                            <td><%= productItem.productId.name %> x   </td>
+                                            <td><%= productItem.productId.name %></td>
                                             <td>₹<%= orderItem.total %></td>
                                             <td><%= orderItem.paymentMode %></td>
                                             <%if(orderItem.returnStatus && orderItem.orderStatus != "Return"){%>

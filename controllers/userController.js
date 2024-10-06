@@ -22,9 +22,18 @@ exports.loadHome = async (req, res,next) => {
   try {
     const id = req.session.user_id;
     const user=await User.find({_id:id})
+    if (user.length > 0){
+      let length= user[0].wishlist.length
+      if(length>0){
+        req.session.wishlist=length
+      }else{
+        req.session.wishlist=0
+      }
+    }
+    const wish= req.session.wishlist
     const banner = await Banner.find({});
     const products= await Products.find({})
-    res.render("Home", { user:user,banner:banner,products:products});
+    res.render("Home", { user:user,banner:banner,products:products,wish});
   } catch (error) {
     next(error.message);
   }
@@ -179,13 +188,14 @@ exports.verifyLogin = async (req, res,next) => {
 // Load user profile
 exports.profile = async (req, res,next) => {
   try {
+    const wish = req.session.wishlist
     const id = req.session.user_id;
     const user = await User.findOne({ _id: id });
     const user1 = await Address.findOne({ user: id });
     if (user1) {
-      res.render("userprofile", { user: id, usrData: user, adrsData: user1 });
+      res.render("userprofile", { user: id, usrData: user, adrsData: user1,wish});
     } else {
-      res.render("userprofile", { user: id, usrData: user, adrsData: null });
+      res.render("userprofile", { user: id, usrData: user, adrsData: null,wish});
     }
   } catch (error) {
     next(error.message);
@@ -195,12 +205,13 @@ exports.profile = async (req, res,next) => {
 // Load user wallet info
 exports.getWallet= async (req, res,next) => {
   try {
+    const wish = req.session.wishlist
     const user = req.session.user_id;
     const userData = await User.findById(user);
     console.log(userData)
     const walletHistory = userData.walletHistory;
     console.log(walletHistory)
-    res.render("wallet", { user, walletHistory,userData });
+    res.render("wallet", { user, walletHistory,userData,wish});
   } catch (error) {
     next(error.message);
   }
@@ -209,9 +220,10 @@ exports.getWallet= async (req, res,next) => {
 //Load Edit user profile page
 exports.editprofile = async (req, res,next) => {
   try {
+    const wish = req.session.wishlist
     const id = req.session.user_id;
     const user = await User.findOne({ _id: id });
-    res.render("editprofile", { user: id, usrData: user });
+    res.render("editprofile", { user: id, usrData: user,wish});
   } catch (error) {
     next(error.message);
   }
@@ -241,11 +253,12 @@ exports.userupdate = async (req, res,next) => {
 //Load Edit password page
 exports.editpass = async (req, res,next) => {
   try {
+    const wish = req.session.wishlist
     const status = req.query.status || "";
     const message = req.query.message || "";
     const id = req.session.user_id;
     const user = await User.find({ _id: id });
-    res.render("editpassword", { user: user, status, message });
+    res.render("editpassword", { user: user, status, message,wish});
   } catch (error) {
     next(error.message);
   }
@@ -427,7 +440,6 @@ exports.verifyOtp = async (req, res,next) => {
       );
       
       const walletbal = oldUser.wallet;
-      console.log(walletbal);
 
       await User.findOneAndUpdate(
         { referral: referral },
@@ -469,6 +481,7 @@ exports.logout = (req, res,next) => {
 // load the shop page
 exports.loadShop = async (req, res, next) => {
   try {
+    const wish = req.session.wishlist
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
     const searchQuery = req.query.search;
@@ -538,6 +551,7 @@ exports.loadShop = async (req, res, next) => {
       brand,
       minPrice,
       search,
+      wish
     });
   } catch (error) {
     next(error.message);
@@ -548,6 +562,7 @@ exports.loadShop = async (req, res, next) => {
 // show product
 exports.showProduct = async (req, res, next) => {
   try {
+    const wish = req.session.wishlist
     const session = req.session.user_id;
     const id = req.query.id;
       const user = await User.find({_id:session});
@@ -575,6 +590,7 @@ exports.showProduct = async (req, res, next) => {
       user: user,
       prdData1: prdts1,
       cartbt: button,
+      wish
     });
   } catch (error) {
     next(error.message);
@@ -595,6 +611,9 @@ exports.toWishlist = async (req, res,next) => {
       await User.findByIdAndUpdate(user, {
         $addToSet: { wishlist: productId },
       });
+      const update= await User.find({_id:user})
+      delete req.session.wishlist
+      req.session.wishlist= update[0].wishlist.length
       res.redirect(`/getproduct?id=${productId}`);
     }
   } catch (error) {
@@ -606,11 +625,14 @@ exports.toWishlist = async (req, res,next) => {
 exports.outWishlist = async (req, res,next) => {
   try {
     const user = req.session.user_id;
+    let list = req.session.wishlist
+    const val = (list-1)
     const Id = req.query.id;
-    console.log(Id);
-    if (user)
-      await User.findByIdAndUpdate(user, { $pull: { wishlist: Id } });
+    if (user){
+     await User.findByIdAndUpdate(user, { $pull: { wishlist: Id } }); 
+     req.session.wishlist=val
     res.redirect("/wishlist");
+    }
   } catch (error) {
     next(error.message);
   }
@@ -619,6 +641,7 @@ exports.outWishlist = async (req, res,next) => {
 // Load the wishlist page with products
 exports.loadWishlist = async (req, res,next) => {
   try {
+    const wish=req.session.wishlist
     const userId = req.session.user_id
     const userData = await User.findById(userId).populate("wishlist");
     const wishlistProducts = [];
@@ -626,7 +649,7 @@ exports.loadWishlist = async (req, res,next) => {
       const product = await Products.findById(productId);
       wishlistProducts.push(product);
     }
-    res.render("wishlist", { user: userId, product: wishlistProducts,userData:userData });
+    res.render("wishlist", { user: userId, product: wishlistProducts,userData:userData,wish});
   } catch (error) {
     next(error.message);
   }
@@ -656,7 +679,10 @@ exports.failed = async (req, res,next) => {
 // load about page
 exports.about = async (req, res, next) => {
   try {
-    res.render("about");
+    const id= req.session.user_id
+      const user = await User.find({_id:id})
+    const wish = req.session.wishlist
+    res.render("about",{wish,user});
   } catch (error) {
     next(error.message);
   }
@@ -666,12 +692,13 @@ exports.about = async (req, res, next) => {
 exports.contactus = async (req, res, next) => {
   try {
     const id= req.session.user_id
+    const wish = req.session.wishlist
     if(id){
       var user= await User.find({_id:id})
     }
     const status = req.query.status || "";
     const message = req.query.message || "";
-    res.render("contactus",{status,message,user});
+    res.render("contactus",{status,message,user,wish});
   } catch (error) {
     next(error.message);
   }
