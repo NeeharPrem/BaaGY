@@ -13,12 +13,11 @@ const Coupon=coupons
 const Razorpay = require('razorpay');
 const easyinvoice=require('easyinvoice')
 const fs = require('fs');
-// const { log } = require('console');
 
 // razor pay instance
 var instance = new Razorpay({
-    key_id: "rzp_test_qnxvdHZX8CBOiS",
-    key_secret: "jCpGjMIgmGDMith9hYaPLNF8",
+    key_id: "rzp_test_GZW3WBbYU5FmUv",
+    key_secret: "FaPwp8ROuC2jYoeTfqNcCktz",
   });
 
 // Load order managment page of user
@@ -192,7 +191,6 @@ exports.loadCheckout = async (req, res,next) => {
     
         } else if (paymentMethod === 'Razorpay') {
             if(wallet){
-                // console.log('Payment method razorpay');
                 const newTotal = payamount - walletBalance
                 const options = {
                     amount: Math.round(newTotal * 100),
@@ -203,8 +201,6 @@ exports.loadCheckout = async (req, res,next) => {
                 // Call the Razorpay API to create an order
                 const order = await instance.orders.create(options);
 
-                // console.log('Sent json status razorpay');
-                // console.log(order);
                 res.json({ status: 'Razorpay', order: order })
             }else{
                 console.log("no v",payamount)
@@ -217,8 +213,6 @@ exports.loadCheckout = async (req, res,next) => {
                 // Call the Razorpay API to create an order
                 const order = await instance.orders.create(options);
 
-                // console.log('Sent json status razorpay');
-                // console.log(order);
                 res.json({ status: 'Razorpay', order: order })
             }
         }else if (paymentMethod === 'wallet'){
@@ -283,8 +277,8 @@ exports.loadCheckout = async (req, res,next) => {
 
  exports.verifyPayment = async (req, res,next) => {
     try {
-        const user = req.session.user_id;
-        const addId= req.session.addId;
+        const user = req.session.user_id
+        const addId = req.session.addId
         const wallet = req.session.wallet
         const details = req.body;
         const keys = Object.keys(details)
@@ -298,7 +292,6 @@ exports.loadCheckout = async (req, res,next) => {
             const status = 'Confirmed';
              
             // Fetching user's cart data
-            
             const cartData = await Cart.findOne({ user: user }).populate("product.productId");
             const coupon = cartData.appliedcoupon
             const discount = cartData.discount
